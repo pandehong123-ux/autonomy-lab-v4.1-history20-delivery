@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+const { chromium } = createRequire(import.meta.url)('C:/Users/shangguan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const html=fs.readFileSync('index.html','utf8');
+const moduleSource=html.split('<script type="module">')[1].split('</script>')[0];
+execFileSync(process.execPath,['--input-type=module','--check'],{input:moduleSource});
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:390,height:844}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4188/#history',{waitUntil:'networkidle'});
+const result=await page.evaluate(()=>({innerWidth,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,pages:document.querySelectorAll('#paper-select option').length,first:document.querySelector('#paper-page-label')?.textContent}));
+console.log(JSON.stringify({syntax:'PASS',mobile:result,errors}));
+await browser.close();

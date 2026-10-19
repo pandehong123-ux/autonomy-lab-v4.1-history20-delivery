@@ -1,0 +1,714 @@
+{
+  "date": "2026-10-19",
+  "version": "4.0.0",
+  "beforeCounts": {
+    "meshes": 283,
+    "triangles": 141116
+  },
+  "closedGeometry": [
+    {
+      "name": "v4-recessed-monocoque",
+      "vertices": 8398,
+      "triangles": 16792,
+      "volume": 3.749482156944393,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front-windscreen",
+      "vertices": 2450,
+      "triangles": 4896,
+      "volume": 0.012839747706855158,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "panoramic-roof",
+      "vertices": 2450,
+      "triangles": 4896,
+      "volume": 0.02453812019920035,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-screen",
+      "vertices": 2450,
+      "triangles": 4896,
+      "volume": 0.014294640398395626,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "side-glazing--1",
+      "vertices": 1950,
+      "triangles": 3896,
+      "volume": 0.0073549793583063084,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "roof-ribbon--1",
+      "vertices": 852,
+      "triangles": 1700,
+      "volume": 0.0019020208331031894,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "belt-seal--1",
+      "vertices": 520,
+      "triangles": 1036,
+      "volume": 0.001313419358729899,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "b-pillar--1",
+      "vertices": 210,
+      "triangles": 416,
+      "volume": 0.000402320534182308,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-quarter-pillar--1",
+      "vertices": 270,
+      "triangles": 536,
+      "volume": 0.0003685080950293958,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "lower-sill--1",
+      "vertices": 350,
+      "triangles": 696,
+      "volume": 0.0025975128677496583,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "side-glazing-1",
+      "vertices": 1950,
+      "triangles": 3896,
+      "volume": 0.0073549793583063084,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "roof-ribbon-1",
+      "vertices": 852,
+      "triangles": 1700,
+      "volume": 0.0019020208331031894,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "belt-seal-1",
+      "vertices": 520,
+      "triangles": 1036,
+      "volume": 0.001313419358729899,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "b-pillar-1",
+      "vertices": 210,
+      "triangles": 416,
+      "volume": 0.000402320534182308,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-quarter-pillar-1",
+      "vertices": 270,
+      "triangles": 536,
+      "volume": 0.0003685080950293958,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "lower-sill-1",
+      "vertices": 350,
+      "triangles": 696,
+      "volume": 0.0025975128677496583,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front--1-cushion",
+      "vertices": 364,
+      "triangles": 724,
+      "volume": 0.012410124908932146,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front--1-back",
+      "vertices": 616,
+      "triangles": 1228,
+      "volume": 0.02327650165479599,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front--1-headrest",
+      "vertices": 252,
+      "triangles": 500,
+      "volume": 0.002219238271989112,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front-1-cushion",
+      "vertices": 364,
+      "triangles": 724,
+      "volume": 0.012410124908932306,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front-1-back",
+      "vertices": 616,
+      "triangles": 1228,
+      "volume": 0.02327650165479623,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "front-1-headrest",
+      "vertices": 252,
+      "triangles": 500,
+      "volume": 0.0022192382719890703,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear--1-cushion",
+      "vertices": 364,
+      "triangles": 724,
+      "volume": 0.012410124908932296,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear--1-back",
+      "vertices": 616,
+      "triangles": 1228,
+      "volume": 0.021219897092120604,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear--1-headrest",
+      "vertices": 252,
+      "triangles": 500,
+      "volume": 0.0022192382719888586,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-1-cushion",
+      "vertices": 364,
+      "triangles": 724,
+      "volume": 0.012410124908932164,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-1-back",
+      "vertices": 616,
+      "triangles": 1228,
+      "volume": 0.021219897092120153,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "rear-1-headrest",
+      "vertices": 252,
+      "triangles": 500,
+      "volume": 0.0022192382719892533,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "roof-integrated-lidar-fairing",
+      "vertices": 600,
+      "triangles": 1196,
+      "volume": 0.0017174554181992908,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    },
+    {
+      "name": "windscreen-frit-mask",
+      "vertices": 494,
+      "triangles": 984,
+      "volume": 0.0009144989432426703,
+      "openEdges": 0,
+      "degenerate": 0,
+      "nonFinite": 0
+    }
+  ],
+  "assembly": {
+    "tyreArchClearance": 0.06,
+    "seatMountGap": 0.0035000000000000586,
+    "frontSeatHeadHeight": 1.47,
+    "rearSeatHeadHeight": 1.41,
+    "roofHeight": 1.726999136310522,
+    "lidarRoofProjection": 0.047,
+    "cameraInsideEnvelope": true,
+    "radarBehindFascia": true,
+    "independentPartCount": 10,
+    "glassPanelThickness": 0.012
+  },
+  "named": {
+    "triangleCount": 141116,
+    "meshCount": 283,
+    "truncated": false,
+    "zfight": [],
+    "backToBack": 68,
+    "defects": [],
+    "noMaterial": [],
+    "clash": [
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "glass/belt-seal--1-5",
+        "crossings": 513
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "glass/belt-seal-1-11",
+        "crossings": 513
+      },
+      {
+        "a": "glass/side-glazing--1-3",
+        "b": "glass/roof-ribbon--1-4",
+        "crossings": 513
+      },
+      {
+        "a": "glass/side-glazing--1-3",
+        "b": "glass/belt-seal--1-5",
+        "crossings": 513
+      },
+      {
+        "a": "glass/side-glazing-1-9",
+        "b": "glass/roof-ribbon-1-10",
+        "crossings": 513
+      },
+      {
+        "a": "glass/side-glazing-1-9",
+        "b": "glass/belt-seal-1-11",
+        "crossings": 513
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/lower-sill-1-20",
+        "crossings": 484
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/lower-sill--1-7",
+        "crossings": 473
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "chassis/side-rail-12",
+        "crossings": 392
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "chassis/side-rail-13",
+        "crossings": 392
+      },
+      {
+        "a": "wheels/wheel--1.5--1/wheel--1.5--1-detail-0",
+        "b": "wheels/wheel--1.5--1/wheel--1.5--1-detail-1",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel--1.5-1/wheel--1.5-1-detail-0",
+        "b": "wheels/wheel--1.5-1/wheel--1.5-1-detail-1",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel-1.5--1/wheel-1.5--1-detail-0",
+        "b": "wheels/wheel-1.5--1/wheel-1.5--1-detail-1",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel-1.5-1/wheel-1.5-1-detail-0",
+        "b": "wheels/wheel-1.5-1/wheel-1.5-1-detail-1",
+        "crossings": 288
+      },
+      {
+        "a": "glass/panoramic-roof-1",
+        "b": "glass/roof-ribbon--1-4",
+        "crossings": 174
+      },
+      {
+        "a": "glass/panoramic-roof-1",
+        "b": "glass/roof-ribbon-1-10",
+        "crossings": 174
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/body-detail-26",
+        "crossings": 157
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/body-detail-13",
+        "crossings": 153
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "glass/rear-screen-2",
+        "crossings": 147
+      },
+      {
+        "a": "glass/roof-integrated-lidar-fairing-15",
+        "b": "lidar/solid-state-lidar-core-0",
+        "crossings": 145
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/body-detail-12",
+        "crossings": 143
+      },
+      {
+        "a": "glass/front-windscreen-0",
+        "b": "glass/roof-ribbon--1-4",
+        "crossings": 141
+      },
+      {
+        "a": "glass/front-windscreen-0",
+        "b": "glass/roof-ribbon-1-10",
+        "crossings": 141
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "body/body-detail-25",
+        "crossings": 139
+      },
+      {
+        "a": "glass/rear-screen-2",
+        "b": "glass/roof-ribbon-1-10",
+        "crossings": 139
+      },
+      {
+        "a": "glass/rear-screen-2",
+        "b": "glass/roof-ribbon--1-4",
+        "crossings": 138
+      },
+      {
+        "a": "body/v4-recessed-monocoque-0",
+        "b": "glass/front-windscreen-0",
+        "crossings": 134
+      },
+      {
+        "a": "chassis/side-rail-12",
+        "b": "chassis/chassis-detail-15",
+        "crossings": 132
+      },
+      {
+        "a": "chassis/side-rail-12",
+        "b": "chassis/chassis-detail-28",
+        "crossings": 132
+      },
+      {
+        "a": "chassis/side-rail-13",
+        "b": "chassis/chassis-detail-21",
+        "crossings": 132
+      },
+      {
+        "a": "chassis/side-rail-13",
+        "b": "chassis/chassis-detail-34",
+        "crossings": 132
+      },
+      {
+        "a": "chassis/chassis-detail-27",
+        "b": "actuators/rear-drive-unit-2",
+        "crossings": 132
+      },
+      {
+        "a": "glass/panoramic-roof-1",
+        "b": "glass/roof-integrated-lidar-fairing-15",
+        "crossings": 128
+      },
+      {
+        "a": "glass/panoramic-roof-1",
+        "b": "lidar/solid-state-lidar-core-0",
+        "crossings": 120
+      },
+      {
+        "a": "chassis/chassis-detail-14",
+        "b": "actuators/steering-controller-0",
+        "crossings": 120
+      },
+      {
+        "a": "chassis/chassis-detail-14",
+        "b": "actuators/brake-control-node-3",
+        "crossings": 110
+      },
+      {
+        "a": "chassis/chassis-detail-14",
+        "b": "actuators/brake-control-node-5",
+        "crossings": 110
+      },
+      {
+        "a": "chassis/chassis-detail-27",
+        "b": "actuators/brake-control-node-4",
+        "crossings": 110
+      },
+      {
+        "a": "chassis/chassis-detail-27",
+        "b": "actuators/brake-control-node-6",
+        "crossings": 110
+      },
+      {
+        "a": "chassis/side-rail-12",
+        "b": "chassis/chassis-detail-14",
+        "crossings": 108
+      }
+    ]
+  },
+  "merged": {
+    "triangleCount": 141116,
+    "meshCount": 52,
+    "truncated": false,
+    "zfight": [],
+    "backToBack": 68,
+    "defects": [],
+    "noMaterial": [],
+    "clash": [
+      {
+        "a": "body/body-merged",
+        "b": "body/body-merged",
+        "crossings": 513
+      },
+      {
+        "a": "body/body-merged",
+        "b": "glass/glass-merged",
+        "crossings": 513
+      },
+      {
+        "a": "body/body-merged",
+        "b": "chassis/chassis-merged",
+        "crossings": 513
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "glass/glass-merged",
+        "crossings": 513
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "glass/glass-merged",
+        "crossings": 513
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "chassis/chassis-merged",
+        "crossings": 513
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 513
+      },
+      {
+        "a": "body/body-merged",
+        "b": "seats/seats-merged",
+        "crossings": 399
+      },
+      {
+        "a": "body/body-merged",
+        "b": "glass/glass-merged",
+        "crossings": 323
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "compute/compute-merged",
+        "crossings": 299
+      },
+      {
+        "a": "wheels/wheel--1.5--1/wheel--1.5--1-merged",
+        "b": "wheels/wheel--1.5--1/wheel--1.5--1-merged",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel--1.5-1/wheel--1.5-1-merged",
+        "b": "wheels/wheel--1.5-1/wheel--1.5-1-merged",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel-1.5--1/wheel-1.5--1-merged",
+        "b": "wheels/wheel-1.5--1/wheel-1.5--1-merged",
+        "crossings": 288
+      },
+      {
+        "a": "wheels/wheel-1.5-1/wheel-1.5-1-merged",
+        "b": "wheels/wheel-1.5-1/wheel-1.5-1-merged",
+        "crossings": 288
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 278
+      },
+      {
+        "a": "body/body-merged",
+        "b": "chassis/chassis-merged",
+        "crossings": 224
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "lidar/lidar-merged",
+        "crossings": 190
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "lidar/lidar-merged",
+        "crossings": 188
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 132
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 112
+      },
+      {
+        "a": "actuators/actuators-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 90
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "glass/glass-merged",
+        "crossings": 88
+      },
+      {
+        "a": "body/body-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 87
+      },
+      {
+        "a": "body/body-merged",
+        "b": "seats/seats-merged",
+        "crossings": 84
+      },
+      {
+        "a": "body/body-merged",
+        "b": "glass/glass-merged",
+        "crossings": 76
+      },
+      {
+        "a": "body/body-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 64
+      },
+      {
+        "a": "body/body-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 54
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "glass/glass-merged",
+        "crossings": 42
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "lidar/lidar-merged",
+        "crossings": 40
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "actuators/actuators-merged",
+        "crossings": 40
+      },
+      {
+        "a": "body/body-merged",
+        "b": "chassis/chassis-merged",
+        "crossings": 37
+      },
+      {
+        "a": "wheels/wheel--1.5--1/wheel--1.5--1-merged",
+        "b": "wheels/wheel--1.5--1/wheel--1.5--1-merged",
+        "crossings": 36
+      },
+      {
+        "a": "wheels/wheel--1.5-1/wheel--1.5-1-merged",
+        "b": "wheels/wheel--1.5-1/wheel--1.5-1-merged",
+        "crossings": 36
+      },
+      {
+        "a": "wheels/wheel-1.5--1/wheel-1.5--1-merged",
+        "b": "wheels/wheel-1.5--1/wheel-1.5--1-merged",
+        "crossings": 36
+      },
+      {
+        "a": "wheels/wheel-1.5-1/wheel-1.5-1-merged",
+        "b": "wheels/wheel-1.5-1/wheel-1.5-1-merged",
+        "crossings": 36
+      },
+      {
+        "a": "glass/glass-merged",
+        "b": "glass/glass-merged",
+        "crossings": 28
+      },
+      {
+        "a": "body/body-merged",
+        "b": "body/body-merged",
+        "crossings": 23
+      },
+      {
+        "a": "chassis/chassis-merged",
+        "b": "compute/compute-merged",
+        "crossings": 10
+      },
+      {
+        "a": "seats/seats-merged",
+        "b": "seats/seats-merged",
+        "crossings": 8
+      },
+      {
+        "a": "body/body-merged",
+        "b": "glass/glass-merged",
+        "crossings": 6
+      }
+    ]
+  }
+}

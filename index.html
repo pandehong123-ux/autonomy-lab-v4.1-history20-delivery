@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b16">
+  <meta name="description" content="拆开一辆智能汽车，探索感知、决策与执行。一个完全在浏览器中运行的交互式 3D 科普实验室。">
+  <title>AUTO LAB · 智驾解构实验室</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231c2348'/%3E%3Cpath d='M13 45L28 17h8l15 28H40l-8-17-8 17z' fill='%23b4a4ff'/%3E%3C/svg%3E">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+    :root{--bg:#f3f6f2;--ink:#1e3029;--muted:#7c8981;--green:#265c45;--lime:#d2efa7;--line:#dce3da;--blue:#648cf0;--orange:#d7954d;--radius:20px;font-family:"DM Sans","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{color:inherit;cursor:pointer}button:disabled{cursor:wait;opacity:.5}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #739f4a;outline-offset:4px}button{touch-action:manipulation}svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.hidden,[hidden]{display:none!important}
+    .topbar{height:78px;border-bottom:1px solid var(--line);padding:0 3.3%;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;gap:12px;align-items:center}.brand-icon{display:grid;place-items:center;width:35px;height:35px;background:var(--green);border-radius:10px;color:var(--lime)}.brand-icon svg{width:24px;height:24px;stroke-width:2}.wordmark{font-size:19px;font-weight:700;letter-spacing:-.8px}.wordmark b{font-weight:500;color:#8c9b8d}.brand small{border-left:1px solid #cdd8ce;padding-left:14px;color:#79877e;font-size:11px;letter-spacing:2px}.nav{display:flex;gap:30px;font-size:12px;align-items:center;color:#748076}.nav span:first-child{color:var(--green);font-weight:700}.nav em{font-size:9px;font-style:normal;background:#e6eddf;border-radius:5px;padding:4px 7px;letter-spacing:1px}.help{display:flex;align-items:center;gap:8px;background:none;border:0;font-size:11px;padding:10px 0}.help svg{width:17px;height:17px}
+    main{max-width:1680px;padding:32px 3.3% 24px;margin:auto}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}.eyebrow{font-size:10px;letter-spacing:2.3px;color:#7f8a7b;display:flex;align-items:center;gap:9px;margin-bottom:10px}.eyebrow:before{content:"";width:6px;height:6px;background:#6e9455;border-radius:50%}h1{font-size:clamp(27px,2.75vw,43px);font-weight:600;letter-spacing:-1.7px;line-height:1.35;margin:0}h1 span{color:#6b8068}.intro-note{font-size:12px;color:#839080;margin:10px 0 0;letter-spacing:.6px}.mode-switch{display:flex;padding:5px;border:1px solid #dbe2d5;background:#e9eee5;border-radius:13px;gap:4px;margin-bottom:5px;flex-shrink:0}.mode-switch button{border:0;border-radius:9px;background:none;padding:12px 18px;font-size:12px;display:flex;align-items:center;gap:9px;transition:background .25s,box-shadow .25s}.mode-switch button[aria-pressed=true]{background:#fff;box-shadow:0 2px 7px #33472a0e;color:var(--green);font-weight:600}.mode-switch svg{width:16px;height:16px}.mode-switch kbd{font:10px "DM Sans",sans-serif;color:#9aa591;border:1px solid #dde5d4;border-radius:4px;padding:1px 4px}
+    .workspace{display:grid;grid-template-columns:178px minmax(0,1fr) 284px;gap:22px;min-height:510px;height:calc(100svh - 355px);max-height:690px}.parts{padding-top:10px}.section-label{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:1.6px;color:#82907f;margin:0 0 22px}.section-label b{font-size:9px;font-weight:500;letter-spacing:1px;border:1px solid #d7e0d0;padding:3px 5px;border-radius:5px}.parts-list{display:flex;flex-direction:column;gap:5px}.part-row{position:relative;display:flex;align-items:center;text-align:left;gap:11px;border:1px solid transparent;background:none;border-radius:10px;padding:10px 8px;width:100%;font-size:12px;transition:.2s}.part-row .number{font-size:9px;color:#93a18c;width:16px;font-variant-numeric:tabular-nums}.part-row .part-glyph{width:24px;display:grid;place-items:center;color:#82917d}.part-row svg{width:18px;height:18px}.part-row .seen{margin-left:auto;font-size:10px;color:#78905c}.part-row:hover{background:#e8eee2}.part-row.selected{background:#e4eddb;border-color:#d5e1ca;color:#37572c}.part-row.selected:before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:3px;background:#719b4c;border-radius:3px}.parts-footer{margin-top:24px;padding-top:18px;border-top:1px solid var(--line);font-size:10px;line-height:1.9;color:#95a08d}.parts-footer strong{color:#697d5d;font-weight:500}
+    .scene{position:relative;min-width:0;isolation:isolate;border:1px solid #e1e7dc;border-radius:var(--radius);overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#fafff8 0%,#eef3e9 58%,#e6eddf 100%)}#viewport{position:absolute;inset:0}#viewport canvas{width:100%;height:100%;display:block;touch-action:none}.scene-top{position:absolute;left:22px;right:22px;top:20px;display:flex;justify-content:space-between;gap:10px;pointer-events:none;font-size:9px;letter-spacing:1.7px;color:#798a6f}.live{display:flex;align-items:center;gap:7px}.live:before{content:"";width:5px;height:5px;background:#729953;border-radius:50%;box-shadow:0 0 0 4px #8eaa6c18}.scene-top .serial{font-size:8px;color:#97a28f;letter-spacing:1.4px}.scene-caption{position:absolute;top:48px;left:22px;pointer-events:none;font-size:11px;color:#617957}.scene-caption b{color:#33542c;font-weight:500}.view-tools{position:absolute;top:63px;right:16px;display:flex;flex-direction:column;gap:6px}.icon-button{width:32px;height:32px;border:1px solid #d8e2cf;background:#f9fcf5d9;border-radius:9px;display:grid;place-items:center;transition:.2s}.icon-button svg{width:16px;height:16px}.icon-button:hover{background:#e3edda;transform:translateY(-1px)}.icon-button[aria-pressed=true]{color:#527a31;background:#dfeacc}.orientation{position:absolute;bottom:76px;right:20px;display:flex;align-items:center;gap:7px;font-size:8px;color:#8a9981;pointer-events:none}.orientation .compass{width:22px;height:22px;border:1px solid #b4c2a7;border-radius:50%;display:grid;place-items:center;font-size:8px;color:#789261}.scene-footer{position:absolute;bottom:14px;left:17px;right:17px;min-height:46px;display:flex;gap:12px;align-items:center;justify-content:space-between;background:#ffffffbd;border:1px solid #ffffff;border-radius:12px;padding:8px 12px;backdrop-filter:blur(12px)}.mouse-hint{display:flex;gap:7px;align-items:center;color:#8a9781;font-size:9px;white-space:nowrap}.mouse-hint svg{width:14px;height:14px}.primary{border:0;background:var(--green);color:#f4ffea;border-radius:8px;padding:10px 15px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:11px;white-space:nowrap;box-shadow:0 3px 10px #244f3315;transition:background .2s}.primary:hover{background:#347157}.primary svg{width:15px;height:15px}.primary[aria-pressed=true]{background:#e0ebd1;color:#3f5b2e;box-shadow:none}.anchors{position:absolute;inset:0;pointer-events:none}.anchor{position:absolute;top:0;left:0;pointer-events:auto;display:flex;align-items:center;gap:6px;border:0;padding:5px;background:transparent;color:#395337;transform:translate(-50%,-50%);z-index:1}.anchor-dot{display:grid;place-items:center;width:22px;height:22px;border:1px solid #729459;background:#f9fff2e8;border-radius:50%;box-shadow:0 0 0 4px #edf5e299;font-size:9px}.anchor-text{font-size:9px;background:#fcfff6e8;padding:5px 7px;border:1px solid #d5e3c9;border-radius:5px;white-space:nowrap}.anchor.selected .anchor-dot{background:#476a34;color:#fff}.anchor.selected{z-index:4}.anchor:hover .anchor-text{background:#d8ecc3}.legend{position:absolute;bottom:75px;left:20px;font-size:9px;color:#839178;display:flex;gap:14px;pointer-events:none}.legend span{display:flex;align-items:center;gap:5px}.legend i{width:5px;height:5px;background:#7fac5d;border-radius:50%}.legend span:nth-child(2) i{background:#638bdf}.legend span:nth-child(3) i{background:#d59a55}.mini-note{position:absolute;left:20px;bottom:104px;font-size:9px;color:#8a9781;max-width:70%;pointer-events:none;line-height:1.7}.loading{position:absolute;inset:0;z-index:9;background:#f0f5e9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#6f8561;font-size:12px;transition:opacity .3s}.loading .loader{width:34px;height:34px;border:1px solid #cad9bb;border-top-color:#527f37;border-radius:50%;animation:spin 1s linear infinite}.loading.failed{padding:30px;text-align:center;line-height:1.8}.loading button{border:1px solid #b7caaa;background:transparent;border-radius:7px;padding:6px 12px}.loading small{font-size:10px;max-width:400px;overflow-wrap:anywhere}@keyframes spin{to{transform:rotate(360deg)}}
+    .info-card{background:#fff;border:1px solid #e1e7dc;border-radius:var(--radius);padding:24px 22px;display:flex;flex-direction:column;overflow:hidden;position:relative}.card-top{display:flex;align-items:center;justify-content:space-between;color:#8c9785;font-size:9px;letter-spacing:1.4px}.card-top .tag{color:#6d884e;background:#edf4e5;padding:5px 8px;border-radius:5px;font-size:9px;letter-spacing:1px}.component-illustration{height:118px;margin:10px 0 14px;display:grid;place-items:center;position:relative;flex-shrink:0;background:radial-gradient(ellipse,#edf4e3 0%,transparent 68%);color:#527147}.component-illustration svg{width:112px;height:92px;stroke-width:1}.illustration-grid{position:absolute;width:140px;height:70px;transform:rotateX(62deg) rotateZ(-25deg);background-image:linear-gradient(#b8caa330 1px,transparent 1px),linear-gradient(90deg,#b8caa330 1px,transparent 1px);background-size:14px 14px;bottom:4px;z-index:0}.component-illustration>svg{z-index:1}#card-en{font-size:9px;letter-spacing:2.1px;color:#8c9a7e;margin:0 0 7px}#card-title{font-size:23px;font-weight:600;letter-spacing:-.8px;margin:0 0 12px}#card-description{font-size:11px;line-height:1.95;color:#7e8977;margin:0;min-height:64px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;padding-top:19px;border-top:1px solid #e9ede5}.stat-label{font-size:9px;color:#9aa491;margin-bottom:8px}.stat-value{font-size:23px;line-height:1.15;letter-spacing:-.8px;font-weight:500}.stat-value small{font-size:10px;color:#8b987e;margin-left:4px;letter-spacing:0}.card-note{margin-top:auto;padding:19px 0 0;font-size:9px;line-height:1.8;color:#a2ab98}.card-action{margin-top:16px;display:flex;align-items:center;justify-content:space-between;width:100%;font-size:10px;background:none;border:0;border-top:1px solid #e8eee0;padding:15px 0 0;color:#618044}.card-action svg{width:15px;height:15px}
+    .learning{margin-top:22px;display:grid;grid-template-columns:178px minmax(0,1fr) 284px;gap:22px;align-items:stretch}.learning-label{padding-top:13px}.learning-label .section-label{margin-bottom:8px}.learning-label p{font-size:10px;color:#9aa48e;margin:0}.pipeline{display:flex;align-items:stretch;gap:8px}.pipeline-step{border:1px solid #dfe5d8;border-radius:13px;padding:13px 15px;background:#f7f9f3;display:flex;gap:12px;align-items:center;flex:1;text-align:left;min-width:0;transition:.2s}.pipeline-step:hover{background:#e8f0df}.pipeline-step[aria-pressed=true]{background:#e4eed7;border-color:#bbcea6}.pipeline-step[data-system=planning][aria-pressed=true]{background:#e8eefb;border-color:#becdf3}.pipeline-step[data-system=control][aria-pressed=true]{background:#f5eadc;border-color:#e0c5a0}.step-num{font-size:10px;color:#8f9e81}.step-title{font-size:12px;font-weight:500;display:block;margin-bottom:4px;white-space:nowrap}.step-caption{font-size:9px;color:#94a085;white-space:nowrap}.step-arrow{display:flex;align-items:center;color:#b2bfa6;font-size:13px}.progress-card{background:#e7eedf;border-radius:13px;padding:14px 17px;display:flex;gap:13px;align-items:center}.progress-ring{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#769c50 var(--progress,0%),#d3dfc6 0);position:relative;flex-shrink:0}.progress-ring:before{content:"";position:absolute;inset:3px;background:#e7eedf;border-radius:50%}.progress-ring span{font-size:10px;position:relative;color:#526f3e}.progress-info strong{font-size:11px;font-weight:500;display:block;margin-bottom:5px}.progress-info small{font-size:9px;color:#8a9c7c}.bottom{margin-top:21px;border-top:1px solid var(--line);padding-top:15px;display:flex;justify-content:space-between;gap:12px;font-size:9px;letter-spacing:.6px;color:#9ba594}.bottom span{display:flex;align-items:center;gap:6px}.bottom svg{width:12px;height:12px}.bottom .version{letter-spacing:1.6px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:#294c3e;color:#f2fae9;padding:12px 22px;font-size:12px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90vw;text-align:center}.toast.visible{opacity:1;transform:translate(-50%,0)}dialog{padding:28px 32px;border:1px solid #dce5d5;border-radius:20px;color:var(--ink);max-width:460px;width:calc(100% - 32px);box-shadow:0 30px 100px #142d1930}dialog::backdrop{background:#263c3155;backdrop-filter:blur(4px)}dialog h2{font-size:23px;margin:0 0 18px}dialog p{font-size:12px;line-height:2;color:#6d7f64}dialog .close-dialog{position:absolute;right:16px;top:16px}dialog .keys{display:grid;grid-template-columns:80px 1fr;gap:10px;font-size:11px;color:#7f8b75}dialog kbd{color:#365d2c;background:#e9f0e1;padding:4px 8px;border-radius:5px;text-align:center}.debug{position:fixed;bottom:12px;left:12px;background:#20382dec;color:white;padding:12px;border-radius:10px;font:10px monospace;z-index:30;display:flex;align-items:center;gap:8px}.debug select,.debug button{font:10px monospace;background:#e6eddf;border:0;border-radius:4px;padding:4px}.debug output{max-width:350px;line-height:1.5}
+    .anchor-text{display:none}.anchor:hover .anchor-text,.anchor.selected .anchor-text{display:block}
+    @media(min-width:851px){.workspace{min-height:600px;height:calc(100svh - 280px);max-height:760px}.parts-footer{margin-top:16px;padding-top:12px}.part-row{padding-top:9px;padding-bottom:9px}}
+    @media(min-width:1650px){.workspace{grid-template-columns:205px minmax(0,1fr) 315px}.learning{grid-template-columns:205px minmax(0,1fr) 315px}.info-card{padding:28px}.component-illustration{height:145px}.part-row{padding:13px 10px}}
+    @media(max-width:1150px){.workspace,.learning{grid-template-columns:145px minmax(0,1fr) 250px;gap:15px}.info-card{padding:20px 17px}.part-row{font-size:11px;gap:7px}.scene-footer{padding:8px}.mouse-hint{font-size:8px;gap:4px}.mouse-hint .pan-hint{display:none}.pipeline-step{padding:12px 9px;gap:7px}.step-caption{font-size:8px}.intro h1{font-size:32px}.topbar .brand small{display:none}.nav{gap:20px}.component-illustration{height:105px}.stats{gap:10px}#card-title{font-size:21px}}
+    @media(max-width:850px){main{padding:24px 20px}.topbar{height:66px;padding:0 20px}.nav{display:none}.intro{align-items:flex-start;flex-direction:column;margin-bottom:20px;gap:20px}.intro h1{font-size:33px}.mode-switch{margin:0;width:100%}.mode-switch button{flex:1;justify-content:center}.workspace{grid-template-columns:minmax(0,1fr) 250px;height:540px;min-height:0;gap:14px}.parts{grid-column:1/-1;grid-row:2;padding-top:4px}.workspace{grid-template-rows:1fr auto;height:640px}.parts .section-label,.parts-footer{display:none}.parts-list{flex-direction:row;overflow-x:auto;gap:6px;padding:5px 0}.part-row{flex:0 0 auto;width:auto;border:1px solid #dce4d4;padding:9px}.part-row .number,.part-row .part-glyph,.part-row .seen{display:none}.part-row.selected:before{display:none}.scene{grid-column:1;grid-row:1}.info-card{grid-column:2;grid-row:1}.learning{grid-template-columns:1fr 250px;gap:14px}.learning-label{display:none}.pipeline-step .step-caption{display:none}.pipeline-step{gap:5px;padding:12px 8px}.pipeline-step .step-title{font-size:11px;margin:0}.scene-top{left:15px;right:15px}.scene-top .serial{display:none}.mouse-hint{display:none}.scene-footer{justify-content:center}.scene-caption{left:15px}.anchor-text{display:none}.legend{gap:9px;left:14px}.mini-note{font-size:8px;left:14px}.bottom{font-size:8px}}
+    @media(max-width:600px){.workspace{display:flex;flex-direction:column;height:auto;max-height:none;gap:14px}.scene{height:470px;flex-shrink:0;order:0}.parts{order:1;min-width:0}.info-card{order:2;min-height:290px;display:grid;grid-template-columns:95px 1fr;column-gap:17px;padding:21px}.card-top{grid-column:1/-1;margin-bottom:14px}.component-illustration{grid-row:2/5;height:110px;margin:3px 0}.component-illustration svg{width:90px}.illustration-grid{width:95px}#card-en{grid-column:2;font-size:8px}#card-title{grid-column:2;margin-bottom:8px;font-size:21px}#card-description{grid-column:2;min-height:0;font-size:11px}.stats{grid-column:1/-1;margin-top:17px;display:flex;justify-content:space-between;gap:20px;padding-top:15px}.card-note{grid-column:1/-1;padding-top:12px}.card-action{grid-column:1/-1;margin-top:10px;padding-top:12px}.learning{display:flex;flex-direction:column;margin-top:16px}.pipeline{min-height:65px}.progress-card{padding:12px 16px}.progress-ring{width:34px;height:34px}.intro h1{font-size:30px;letter-spacing:-1px}.intro-note{font-size:10px}.eyebrow{font-size:8px}.brand small{display:none}.help{font-size:10px}.bottom{line-height:1.8;align-items:flex-start}.bottom span:first-child{max-width:65%;display:block}.bottom .version{font-size:7px}.scene-top{top:18px}.scene-caption{top:43px}.view-tools{top:62px}.legend{bottom:81px}.mini-note{bottom:107px}.scene-footer{bottom:14px}.primary{padding:11px 24px}.debug{max-width:95vw;flex-wrap:wrap}}
+    @media(max-width:850px){.anchor:hover .anchor-text,.anchor.selected .anchor-text{display:none}.anchor{padding:10px}.anchor-dot{width:24px;height:24px}}
+    @media(max-width:600px){h1 span{display:block}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+    :root{color-scheme:dark;--bg:#080b16;--ink:#e5eaff;--muted:#9aa6c7;--green:#6c91ff;--lime:#b4a4ff;--line:#262d49;--blue:#719cff;--orange:#b58bff}
+    html{scroll-behavior:smooth;scroll-padding-top:28px}body{background:radial-gradient(ellipse at 0 0,#19204166,transparent 35%),radial-gradient(ellipse at 95% 20%,#45287838,transparent 35%),#080b16}a{color:#9ab7ff;text-decoration:none}a:hover{color:#d4c6ff}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline-color:#a18aff}.topbar{background:#0b0f1ed9}.brand-icon{background:#1c2a52;color:#abbaff}.wordmark b,.brand small,.nav,.help{color:#9ca8c9}.brand small{border-color:#333b59}.nav em{background:#242342;color:#c8bbff}.nav a{font-weight:500}.eyebrow{color:#91a6e2}.eyebrow:before{background:#a68bff;box-shadow:0 0 12px #8c70ff}h1 span{color:#a695ff}.intro-note{color:#9ca8c9}.mode-switch{background:#10172b;border-color:#2b3556}.mode-switch button[aria-pressed=true]{background:#2b3761;color:#e4eaff;box-shadow:0 2px 15px #0b1026}.mode-switch kbd{color:#92a3cb;border-color:#405079}.section-label,.parts-footer,.parts-footer strong{color:#9ca8c9}.section-label b{border-color:#354165}.part-row .number,.part-row .part-glyph,.part-row .seen{color:#94a4d0}.part-row:hover{background:#172039}.part-row.selected{background:#252647;border-color:#514780;color:#c5b6ff}.part-row.selected:before{background:#a68bff}.scene{border-color:#303957;background:radial-gradient(ellipse at 50% 40%,#1c2e51 0%,#11192c 52%,#0d1120 100%)}.scene-top,.scene-top .serial,.scene-caption,.orientation,.mouse-hint,.legend,.mini-note{color:#92a5d2}.scene-caption b{color:#bfceff}.live:before{background:#819eff;box-shadow:0 0 0 4px #7591ff18}.icon-button{border-color:#364364;background:#151e35e8;color:#a9baff}.icon-button:hover{background:#2b3159}.icon-button[aria-pressed=true]{color:#d9ccff;background:#39305b}.orientation .compass{border-color:#54658b;color:#b6c6f4}.scene-footer{background:#0c1225d9;border-color:#303c5c}.primary{background:linear-gradient(110deg,#496ce4,#7651d5);color:#fff;box-shadow:0 3px 16px #3d42bc33}.primary:hover{background:linear-gradient(110deg,#5b7cf1,#936bec)}.primary[aria-pressed=true]{background:#35294e;color:#d5beff}.anchor{color:#c5d3ff}.anchor-dot{border-color:#829bff;background:#131f3bea;box-shadow:0 0 0 4px #5866b528}.anchor-text{background:#141b33ee;border-color:#4d5b86}.anchor.selected .anchor-dot{background:#8060d4;color:#fff}.anchor:hover .anchor-text{background:#37305b}.legend i{background:#739dff}.legend span:nth-child(2) i{background:#a08bff}.legend span:nth-child(3) i{background:#df8de4}.loading{background:#10172a;color:#b6c6ed}.loading .loader{border-color:#364267;border-top-color:#ad92ff}.loading button{border-color:#6476ae}.info-card{background:linear-gradient(155deg,#191e34,#121728);border-color:#303857}.card-top,#card-en,.stat-label,.stat-value small,.card-note{color:#98a6c9}.card-top .tag{color:#baa4ff;background:#302747}.component-illustration{background:radial-gradient(ellipse,#39305e88,transparent 68%);color:#9aacf3}.component-illustration svg [fill]{fill:#252c4c}.component-illustration svg [stroke]{stroke:#7c8fc9}.illustration-grid{background-image:linear-gradient(#7286c433 1px,transparent 1px),linear-gradient(90deg,#7286c433 1px,transparent 1px)}#card-description{color:#afbad5}.stats,.card-action{border-color:#303854}.card-action{color:#b29aff}.learning-label p,.step-num,.step-caption,.progress-info small,.bottom{color:#91a0c6}.pipeline-step{background:#10182b;border-color:#2c3654}.pipeline-step:hover{background:#1b2847}.pipeline-step[aria-pressed=true]{background:#203455;border-color:#5a84c3}.pipeline-step[data-system=planning][aria-pressed=true]{background:#30254e;border-color:#8a6bc8}.pipeline-step[data-system=control][aria-pressed=true]{background:#3a2647;border-color:#b278bb}.step-arrow{color:#6978a6}.progress-card,.progress-ring:before{background:#1e203b}.progress-ring{background:conic-gradient(#a78bfa var(--progress,0%),#343953 0)}.progress-ring span{color:#c6b7ff}.toast{background:#30264e;color:#e4dfff}dialog{background:#141b30;border-color:#3e466c}dialog::backdrop{background:#050714bb}dialog p,dialog .keys{color:#a6b4d5}dialog kbd{color:#d2c2ff;background:#302747}.debug{background:#12172def}.debug select,.debug button{background:#303857;color:#dde5ff}
+    .history{position:relative;border-bottom:1px solid var(--line);padding:34px 0 44px;margin-bottom:38px;overflow:hidden}.chapter-label{font-size:10px;letter-spacing:2.5px;color:#a78bfa;display:flex;gap:14px;align-items:center}.chapter-label:before{content:"";height:1px;width:30px;background:#8071c5}.history-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;margin:28px 0 30px}.history h2{font-size:clamp(34px,4.2vw,64px);font-weight:500;line-height:1.2;letter-spacing:-2px;margin:0 0 20px}.history h2 span{display:block;background:linear-gradient(90deg,#78adff,#bc91ff);background-clip:text;color:transparent}.history-lead{max-width:560px;color:#a7b3d3;font-size:13px;line-height:2;margin:0 0 25px}.chapter-actions{display:flex;align-items:center;gap:24px;font-size:11px}.chapter-actions .primary{display:inline-flex;padding:13px 20px}.history-art{position:relative;height:225px;display:grid;place-items:center;background:radial-gradient(ellipse,#4736a64a,transparent 66%)}.history-art svg{width:100%;height:100%;stroke-width:1}.history-art .wave{transform-origin:300px 130px;animation:sensorwave 5s ease-in-out infinite}.history-art .wave:nth-child(2){animation-delay:-1.6s}.history-art small{position:absolute;bottom:3px;color:#8295c8;font-size:9px;letter-spacing:2px}@keyframes sensorwave{0%,100%{opacity:.25}50%{opacity:.9}}.timeline{display:grid;grid-template-columns:repeat(6,1fr);margin:0;padding:0;list-style:none;border-top:1px solid #354365}.timeline button{position:relative;background:none;border:0;text-align:left;width:100%;padding:23px 10px 18px;color:#8a9abd;min-height:100px}.timeline button:before{content:"";position:absolute;top:-4px;left:10px;width:7px;height:7px;background:#384a74;border-radius:50%;box-shadow:0 0 0 5px #080b16}.timeline button[aria-pressed=true]:before{background:#b49aff;box-shadow:0 0 0 5px #211a39,0 0 24px #9a70ff}.timeline button:hover{background:#18203b55}.timeline button[aria-pressed=true]{color:#d3c5ff}.timeline strong{font:500 22px 'DM Sans',sans-serif;display:block;letter-spacing:-.5px;margin-bottom:8px}.timeline span{font-size:10px}.history-detail{display:grid;grid-template-columns:210px 1fr 240px;gap:26px;align-items:center;background:linear-gradient(115deg,#172542aa,#2d1f43aa);border:1px solid #38395f;border-radius:16px;padding:25px 28px;min-height:170px}.history-detail small{display:block;font-size:9px;color:#9d9bc4;letter-spacing:2px;margin-bottom:9px}.history-detail h3{font-size:22px;margin:0;font-weight:500}.history-detail p{font-size:12px;line-height:1.95;color:#afbddc;margin:0}.history-concept{border-left:1px solid #4c426d;padding-left:25px;font-size:12px;color:#c2b7ed;line-height:1.8}.history-concept a{display:inline-block;font-size:10px;margin-top:8px}.chapter-divider{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.chapter-divider a{font-size:10px;color:#93a3cf}.model-note{font-size:10px;color:#a697ca;line-height:1.8;margin:0 0 16px}.intro{scroll-margin-top:24px}
+    .timeline{grid-template-columns:repeat(7,1fr)}
+    @media(max-width:850px){.history{padding:14px 0 30px}.history-hero{grid-template-columns:1fr;gap:4px}.history-art{display:none}.history h2{font-size:43px}.history-detail{grid-template-columns:160px 1fr;gap:20px}.history-concept{grid-column:1/-1;border-left:0;border-top:1px solid #42395f;padding:14px 0 0}.timeline{grid-template-columns:repeat(3,1fr);border-top:0}.timeline li{border-top:1px solid #354365}.timeline li:last-child{grid-column:1/-1}.timeline button{min-height:90px}.part-row{border-color:#2c3654}}
+    @media(max-width:600px){.history{margin-bottom:28px;padding-top:4px}.history h2{font-size:38px;letter-spacing:-1.5px}.history-lead{font-size:12px}.history-detail{display:block;padding:22px}.history-detail h3{font-size:21px;margin-bottom:13px}.history-concept{margin-top:15px}.timeline strong{font-size:19px}.timeline span{font-size:9px}.chapter-label{font-size:8px;letter-spacing:1.6px}.chapter-actions{gap:18px}.chapter-divider{margin-bottom:18px}.model-note{font-size:9px}.history-hero{margin-top:23px}}
+    /* Long-form archive: print-like rhythm with readable text and direct navigation. */
+    .paper-headline{line-height:1.35;letter-spacing:-.5px}.paper-name{line-height:1.15}.paper-meta{max-width:340px;font-size:11px}.paper-body{font-size:14px;line-height:1.95;column-gap:25px}.paper-body p{margin:0 0 16px;text-align:justify}.paper-deck{font-size:15px;line-height:1.85}.paper-side-article h4{font-size:23px;line-height:1.4}.paper-side-article p{font-size:13px;line-height:1.95}.paper-date{line-height:1.7;letter-spacing:1.2px}.paper-caption{font-size:11px;line-height:1.8}.paper-image{height:auto;aspect-ratio:2.5;object-fit:cover;box-sizing:border-box}.paper-credit{font-size:11px;line-height:1.8;overflow-wrap:anywhere}.paper-credit strong{display:block;margin-bottom:7px;font-weight:600;color:#393247}.paper-credit a{display:block;margin:6px 0;color:#4b3b70;text-underline-offset:3px}.newspaper-note{color:#625869;font-size:11px;border-top:1px solid #b0a6ad;padding-top:12px}.paper-nav{gap:12px}.paper-nav button{min-height:44px;white-space:nowrap}.paper-nav button:disabled{opacity:.4;cursor:default}.paper-nav button:disabled:hover{background:#f4eddf}.paper-tools{padding:12px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;border-bottom:1px solid #a6a0a3}.paper-tools label{font-size:11px;display:flex;align-items:center;gap:12px}.paper-tools select{min-height:44px;max-width:100%;background:#f4eddf;border:1px solid #a69aa8;color:#393247;border-radius:0;padding:7px 28px 7px 10px;font:12px inherit}.paper-tools details{flex:1;min-width:180px}.paper-tools summary{font-size:12px;min-height:44px;display:list-item;align-content:center;cursor:pointer;color:#4d3b68}.paper-tools details[open]{flex-basis:100%;order:2}.paper-tools nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 18px;border-top:1px solid #aaa1a5;padding:8px 0 16px}.paper-tools nav button{background:transparent;text-align:left;border:0;border-bottom:1px solid #c9bec4;color:#4d485b;padding:10px 6px;min-height:48px;line-height:1.7;font-size:11px}.paper-tools nav button:hover,.paper-tools nav button[aria-current=true]{background:#d9cfdf;color:#2e2048}.paper-tools progress{width:100%;height:3px;appearance:none;border:0;accent-color:#6d5483}.paper-tools progress::-webkit-progress-bar{background:#d1c7cf}.paper-tools progress::-webkit-progress-value{background:#6d5483}.paper-lab-question{border-left:3px solid #7d628f;padding:4px 0 4px 15px}.paper-lab-question span{font-size:10px;letter-spacing:1px;color:#6e5b8c}.paper-lab-question p{font-size:13px;line-height:1.85;margin:9px 0}.paper-lab-question a{font-size:12px;text-decoration:underline;color:#513c70}.newspaper :is(button,a,select,summary):focus-visible{outline:2px solid #634b81;outline-offset:4px}.paper-lead,.paper-side{min-width:0}.paper-page-label{line-height:1.7;text-align:center}.paper-lead h4:focus{outline:none}
+    @media(max-width:850px){.paper-body{column-count:2}.paper-side{grid-template-columns:1fr 1fr}.paper-lab-question{grid-column:1/-1}.paper-tools nav{grid-template-columns:repeat(2,minmax(0,1fr))}.paper-headline{font-size:34px}.paper-grid{padding-top:20px}}
+    @media(max-width:600px){.paper-body{column-count:1;font-size:15px}.paper-nav{display:grid;grid-template-columns:1fr 1fr}.paper-page-label{grid-row:1;grid-column:1/-1}.paper-nav button{font-size:12px}.paper-nav #paper-next{grid-column:2}.paper-tools label{width:100%;justify-content:space-between}.paper-tools select{min-width:0;width:74%;font-size:12px}.paper-meta{font-size:10px}.paper-tools nav{grid-template-columns:1fr}.paper-tools nav button{font-size:12px}.paper-side{display:flex}.paper-side-article p{font-size:14px}.paper-headline{font-size:30px}.paper-image{aspect-ratio:2.2}.paper-masthead{padding-top:5px}.paper-kicker{font-size:8px;line-height:1.8;letter-spacing:1px}.newspaper{padding:18px 14px 22px}.paper-credit{margin-top:4px}}
+  </style>
+  <style>
+    /* Newspaper layout: a paginated research spread keeps historical material readable on desktop and mobile. */
+    .history-hero,.history>.timeline,.history>.history-detail{display:none}
+    .newspaper{border:1px solid #484468;background:#eee7d7;color:#1e2031;box-shadow:0 18px 60px #0007;margin-top:24px;padding:22px 26px 26px;position:relative;overflow:hidden}
+    .newspaper:before{content:"ARCHIVE / AUTONOMOUS MOBILITY";position:absolute;right:24px;top:15px;color:#786e83;font-size:8px;letter-spacing:2px}.paper-masthead{border-bottom:2px solid #24243a;padding-bottom:13px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.paper-kicker{font-size:9px;letter-spacing:2px;color:#665a86}.paper-name{font-family:Georgia,"Times New Roman",serif;font-size:clamp(30px,4vw,54px);line-height:.9;letter-spacing:-2px;margin:0;color:#222238}.paper-meta{font-family:Georgia,serif;text-align:right;font-size:10px;line-height:1.6;color:#5d5870}.paper-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0 10px;border-bottom:1px solid #a6a0a3}.paper-nav button{border:1px solid #767080;background:#f4eddf;padding:8px 12px;color:#33334b;font-size:11px}.paper-nav button:hover{background:#d8cbee}.paper-page-label{font-family:Georgia,serif;font-size:12px;letter-spacing:1px;color:#5d5870}.paper-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;padding-top:22px}.paper-lead{border-right:1px solid #aaa1a5;padding-right:24px}.paper-date{font-size:9px;letter-spacing:2px;color:#6e5b8c;margin-bottom:9px}.paper-headline{font-family:Georgia,"Songti SC",serif;font-size:clamp(26px,3.4vw,48px);line-height:1.05;letter-spacing:-1.3px;margin:0 0 12px;color:#202137}.paper-deck{font-family:Georgia,"Songti SC",serif;font-size:14px;line-height:1.7;margin:0 0 15px;color:#4d485b}.paper-body{column-count:2;column-gap:22px;font-family:Georgia,"Songti SC",serif;font-size:12px;line-height:1.85;color:#3f3e4c}.paper-body p{margin:0 0 10px}.paper-image-wrap{margin:14px 0 0}.paper-image{width:100%;height:210px;object-fit:cover;display:block;filter:sepia(.2) saturate(.72) contrast(1.05);border:5px solid #f6eedf;outline:1px solid #7a7180}.paper-caption{font-family:Georgia,serif;font-size:9px;line-height:1.5;color:#655e6c;margin-top:7px}.paper-side{display:flex;flex-direction:column;gap:15px}.paper-side-article{border-top:2px solid #2a2940;padding-top:10px}.paper-side-article h4{font-family:Georgia,serif;font-size:22px;line-height:1.1;margin:0 0 8px;color:#24243c}.paper-side-article p{font-family:Georgia,"Songti SC",serif;font-size:11px;line-height:1.75;margin:0;color:#4e4a59}.paper-side-article .paper-image{height:116px;margin-top:10px}.paper-credit{border-top:1px solid #9c959c;margin-top:auto;padding-top:10px;font-size:9px;line-height:1.6;color:#645d6d}.paper-credit a{color:#584a87;text-decoration:underline}.newspaper-note{font-size:10px;color:#9e90b9;line-height:1.7;margin:12px 0 0}.newspaper .paper-page-4{display:none}
+    @media(max-width:850px){.newspaper{padding:18px 16px 20px}.paper-masthead{display:block}.paper-meta{text-align:left;margin-top:10px}.paper-grid{grid-template-columns:1fr;gap:16px}.paper-lead{border-right:0;border-bottom:1px solid #aaa1a5;padding:0 0 18px}.paper-body{column-count:1}.paper-image{height:180px}.paper-side{display:grid;grid-template-columns:1fr 1fr;gap:14px}.paper-credit{grid-column:1/-1}.newspaper:before{display:none}}
+    @media(max-width:600px){.paper-name{font-size:35px}.paper-headline{font-size:31px}.paper-deck{font-size:13px}.paper-side{display:block}.paper-side-article{margin-top:14px}.paper-image{height:160px}.paper-nav button{padding:8px 9px;font-size:10px}}
+  </style>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M4 18 11 5h2l7 13M8 14h8M9 18h6"/></svg></div><span class="wordmark">AUTO <b>/</b> LAB</span><small>智驾解构实验室</small></div>
+    <nav class="nav" aria-label="章节导航"><a href="#history">01 / 智驾简史</a><a href="#lab">02 / 交互实验室</a><em>VOL. 002</em></nav>
+    <button class="help" id="help-button"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 8.5a2.5 2.5 0 0 1 4.8 1c0 2-2.4 2-2.4 4M12 17h.01"/></svg>探索指南</button>
+  </header>
+  <main>
+    <section class="history" id="history" aria-labelledby="history-title">
+      <div class="chapter-label">CHAPTER 01 / 从传感器开始的智驾简史</div>
+      <div class="history-hero"><div><h2 id="history-title">在学会驾驶之前，<span>先学会感知。</span></h2><p class="history-lead">从车轮上的一枚传感器，到理解道路的多种“感官”。智能驾驶的故事，始于把物理世界变成数据，再让数据参与决策。</p><div class="chapter-actions"><a class="primary" href="#lab">进入 3D 拆解实验室 ↗</a><a href="#timeline">沿时间探索 ↓</a></div></div><div class="history-art" aria-hidden="true"><svg viewBox="0 0 600 240"><defs><linearGradient id="sensor-gradient"><stop stop-color="#629fff"/><stop offset="1" stop-color="#bb8aff"/></linearGradient></defs><g stroke="url(#sensor-gradient)"><g class="wave"><ellipse cx="300" cy="130" rx="245" ry="83" stroke-dasharray="3 9"/><ellipse cx="300" cy="130" rx="192" ry="62"/></g><g class="wave"><ellipse cx="300" cy="130" rx="140" ry="43"/><path d="M55 130h490M300 40v175" opacity=".4"/></g><path d="m199 147 17-37 42-31h87l43 38 26 15v24H199z" fill="#1c2850" stroke-width="2"/><path d="m236 108 28-22h72l28 28-128-6Z" fill="#10182e"/><circle cx="239" cy="152" r="19" fill="#0a1022" stroke-width="2"/><circle cx="373" cy="152" r="19" fill="#0a1022" stroke-width="2"/><path d="M300 78V52m-7 0h14M286 48a20 20 0 0 1 28 0M278 39a33 33 0 0 1 44 0"/><circle cx="199" cy="136" r="4" fill="#83b7ff"/><path d="m195 132-40-27m40 35-56 11M404 124l49-29" stroke-dasharray="4 5"/></g></svg><small>MEASURE → PERCEIVE → UNDERSTAND</small></div></div>
+      <ol class="timeline" id="timeline" aria-label="选择历史节点"><li><button data-era="0" aria-pressed="true"><strong>1978</strong><span>轮速 · 感知自身</span></button></li><li><button data-era="1" aria-pressed="false"><strong>1986</strong><span>视觉 · 看向道路</span></button></li><li><button data-era="2" aria-pressed="false"><strong>1993</strong><span>超声波 · 近距测量</span></button></li><li><button data-era="3" aria-pressed="false"><strong>2000</strong><span>雷达 · 跟随前车</span></button></li><li><button data-era="4" aria-pressed="false"><strong>2005</strong><span>挑战赛 · 自主驾驶</span></button></li><li><button data-era="5" aria-pressed="false"><strong>2010</strong><span>融合 · 协同理解</span></button></li><li><button data-era="6" aria-pressed="false"><strong>2022</strong><span>计算 · 走向集中</span></button></li></ol>
+      <div class="history-detail" aria-live="polite"><div><small id="era-type">PROPRIOCEPTION / 车辆自身</small><h3 id="era-title">从轮速到防抱死</h3></div><p id="era-description">车辆传感器并非始于自动驾驶。1978 年，Bosch 电子 ABS 进入乘用车量产：轮速传感器持续测量车轮转速，控制器据此调节制动压力。这是“测量—判断—执行”闭环的一个典型起点。</p><div class="history-concept"><small>带着这个问题继续探索</small><span id="era-question">车轮的反馈，怎样让制动更可控？</span><br><a id="era-source" href="https://www.bosch-mobility.com/en/company/milestones/" target="_blank" rel="noopener noreferrer">阅读 Bosch 历史资料 ↗</a></div></div>
+      <div class="newspaper" id="newspaper" aria-label="报纸式智驾简史">
+        <div class="paper-masthead"><div><div class="paper-kicker">AUTO LAB / THE SENSOR TIMES · 历史增刊 · 20 版</div><h3 class="paper-name">智驾简史报</h3></div><div class="paper-meta" id="paper-meta">1955—2024 · 传感器、自动驾驶与人工智能</div></div>
+        <div class="paper-nav"><button id="paper-prev" type="button">← 上一版</button><span class="paper-page-label" id="paper-page-label" role="status" aria-live="polite">PAGE 01 / 20</span><button id="paper-next" type="button">下一版 →</button></div>
+        <div class="paper-tools"><label for="paper-select">跳转版面<select id="paper-select" aria-label="跳转版面"></select></label><details id="paper-directory"><summary>展开全刊目录 · 20 版</summary><nav id="paper-contents" aria-label="智驾简史全刊目录"></nav></details><progress id="paper-progress" value="1" max="20" aria-label="当前版面进度"></progress></div>
+        <div class="paper-grid"><article class="paper-lead"><div class="paper-date" id="paper-lead-date"></div><h4 class="paper-headline" id="paper-lead-title" tabindex="-1"></h4><p class="paper-deck" id="paper-lead-deck"></p><div class="paper-body" id="paper-lead-body"></div><div class="paper-image-wrap"><img class="paper-image" id="paper-lead-image" width="720" height="288" alt="本版历史配图"><div class="paper-caption" id="paper-lead-caption"></div></div></article><aside class="paper-side"><article class="paper-side-article"><div class="paper-date" id="paper-side-date"></div><h4 id="paper-side-title"></h4><p id="paper-side-body"></p></article><article class="paper-side-article paper-concept"><div class="paper-date">TECH EXPLAINED / 技术小讲堂</div><h4 id="paper-concept-title"></h4><p id="paper-concept-body"></p></article><div class="paper-lab-question"><span>带着问题，进入实验室</span><p id="paper-question"></p><a href="#lab">前往 3D 拆解 ↗</a></div><div class="paper-credit" id="paper-credit"></div></aside></div>
+        <p class="newspaper-note">本刊文字据原始论文与机构档案独立编写；历史回顾截至 2024 年首发研究。档案照片远程引用，版权归原权利人；原理图由本项目绘制并明确标注。资料核阅：2026-10-19。</p>
+      </div>
+    </section>
+    <div class="chapter-divider" id="lab"><div class="chapter-label">CHAPTER 02 / 拆开智能驾驶</div><a href="#history">↑ 回到智驾简史</a></div>
+    <p class="model-note">Y–STUDY / 04 · 无标跨界概念车。连续金属曲面、齐平玻璃与隐藏式感知模块；传感器及四座内饰为教学设计，技术指标均为示例。</p>
+    <section class="intro"><div><div class="eyebrow">INTELLIGENCE, UNDER THE SHELL</div><h1>拆开一辆车，<span>看见它的智能。</span></h1><p class="intro-note">从一束激光到一次转向，探索自动驾驶背后的协同。</p></div><div class="mode-switch" aria-label="探索模式"><button id="mode-hardware" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg>硬件拆解<kbd>A</kbd></button><button id="mode-system" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h4V5h6M11 12v7h6"/></svg>系统透视<kbd>B</kbd></button></div></section>
+    <section class="workspace" aria-label="智能汽车交互实验室">
+      <aside class="parts"><h2 class="section-label">部件索引 <b>10 PARTS</b></h2><div class="parts-list" id="parts-list"></div><div class="parts-footer">每个部件，都是智能的一部分。<br><strong>点击名称或模型标记，开始探索 ↗</strong></div></aside>
+      <div class="scene" id="scene-wrap"><div id="viewport" role="img" aria-label="可旋转和拆解的智能驾驶汽车三维模型。也可使用左侧部件列表完成选择。"></div><div class="scene-top"><span class="live" id="scene-status">ASSEMBLED · 已组装</span><span class="serial">A-LAB / Y–STUDY</span></div><div class="scene-caption" id="scene-caption">无标跨界车 <b>Y–STUDY</b></div><div class="view-tools"><button class="icon-button" id="reset-view" title="重置视角（R）" aria-label="重置视角"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button><button class="icon-button" id="top-view" title="俯视模型（T）" aria-label="俯视模型"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></button><button class="icon-button" id="rotate" title="自动旋转" aria-label="自动旋转" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M19 8c-2-5-11-5-14 1M5 16c2 5 11 5 14-1M19 3v5h-5M5 21v-5h5"/></svg></button></div><div class="anchors" id="anchors"></div><div class="mini-note" id="scene-note">点击「拆解车体」，让每一层技术浮出水面。</div><div class="legend" id="legend" hidden><span><i></i>感知</span><span><i></i>决策</span><span><i></i>执行</span></div><div class="orientation"><span class="compass">N</span><span>Y ↑ / METERS</span></div><div class="scene-footer"><div class="mouse-hint"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 3v6"/></svg><span>拖动旋转 · 滚轮缩放<span class="pan-hint"> · 右键平移</span></span></div><button id="explode-button" class="primary" aria-pressed="false" disabled><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg><span>拆解车体</span></button></div><div class="loading" id="loading"><div class="loader"></div><span>正在构建你的智驾实验室</span><small>首次打开需要联网加载 Three.js 与 GSAP</small></div></div>
+      <aside class="info-card" aria-live="polite" aria-atomic="true"><div class="card-top"><span id="card-number">COMPONENT / 05</span><span class="tag" id="card-tag">感知系统</span></div><div class="component-illustration"><div class="illustration-grid"></div><svg id="card-illustration" viewBox="0 0 120 100" aria-hidden="true"></svg></div><p id="card-en">LIGHT DETECTION AND RANGING</p><h2 id="card-title">激光雷达</h2><p id="card-description">向周围发射激光脉冲，根据回波时间测量距离，为汽车构建立体的环境点云。</p><div class="stats" id="card-stats"></div><div class="card-note">参数为教学示意，并非特定量产车型规格。<br>模型位置与系统关系经过可视化简化。</div><button class="card-action" id="focus-button"><span>聚焦这一部件</span><svg viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></button></aside>
+    </section>
+    <section class="learning" aria-label="自动驾驶系统闭环"><div class="learning-label"><h2 class="section-label">智能如何发生</h2><p>三个系统，一个持续的闭环。</p></div><div class="pipeline"><button class="pipeline-step" data-system="perception" aria-pressed="false"><span class="step-num">01</span><span><span class="step-title">感知世界</span><span class="step-caption">我在哪里？周围有什么？</span></span></button><span class="step-arrow">→</span><button class="pipeline-step" data-system="planning" aria-pressed="false"><span class="step-num">02</span><span><span class="step-title">思考决策</span><span class="step-caption">预测变化，规划安全路径</span></span></button><span class="step-arrow">→</span><button class="pipeline-step" data-system="control" aria-pressed="false"><span class="step-num">03</span><span><span class="step-title">精准执行</span><span class="step-caption">转向、制动与驱动协同</span></span></button></div><div class="progress-card"><div class="progress-ring" id="progress-ring"><span id="progress-count">0/10</span></div><div class="progress-info"><strong id="progress-title">你的探索，刚刚开始</strong><small id="progress-description">发现 10 个部件，解锁智能全貌</small></div></div></section>
+    <footer class="bottom"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg> 科普示意模型 · 感知范围和数据流为原理可视化 · 请勿用于真实驾驶决策</span><span class="version">EXPLORE THE UNSEEN. &nbsp; © AUTO LAB 2026</span></footer>
+  </main>
+  <dialog id="guide"><button class="icon-button close-dialog" id="close-guide" aria-label="关闭指南">×</button><div class="eyebrow">A SMALL GUIDE TO BIG IDEAS</div><h2>从好奇，开始探索。</h2><p>先点击「拆解车体」，观察车身与传感器如何分离。选择模型上的标记或左侧部件，镜头会带你靠近。再切换「系统透视」，查看感知、决策与执行如何配合。</p><div class="keys"><kbd>拖动 / 双指</kbd><span>旋转模型 / 触屏缩放</span><kbd>滚轮 / 右键</kbd><span>缩放 / 平移</span><kbd>A / B</kbd><span>切换硬件 / 系统模式</span><kbd>空格</kbd><span>拆解 / 组装；系统模式下复原</span><kbd>R / T</kbd><span>重置视角 / 俯视</span><kbd>Esc</kbd><span>退出部件聚焦</span></div><p>探索进度只保存在当前浏览器，可在刷新后继续。所有数值均为教学示例。</p><button class="primary" id="start-exploring">开始探索 ↗</button></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module">
+  // One file, no build step, no model/texture downloads. Pin CDN versions for reproducibility.
+  const $ = id => document.getElementById(id);
+  const ERAS=[
+    {type:'PROPRIOCEPTION / 车辆自身',title:'从轮速到防抱死',text:'车辆传感器并非始于自动驾驶。1978 年，Bosch 电子 ABS 进入乘用车量产：轮速传感器持续测量车轮转速，控制器据此调节制动压力。这是“测量—判断—执行”闭环的一个典型起点。',question:'车轮的反馈，怎样让制动更可控？',source:'Bosch 历史资料',url:'https://www.bosch-mobility.com/en/company/milestones/'},
+    {type:'VISION / 看向道路',title:'摄像头成为道路之眼',text:'1986 年，卡内基梅隆大学建成 Navlab 1 实验车，探索车辆如何利用视觉等传感信息自主行驶。1995 年，其团队完成横穿美国的道路实验；其中约 98% 的行程由系统负责转向，油门和制动仍由人类操作。这并非今天意义上的完全无人驾驶。',question:'图像能告诉汽车“哪里是道路”吗？',source:'CMU Navlab 项目资料',url:'https://csd.cmu.edu/news/then-and-now-the-2850mile-nohands-road-trip'},
+    {type:'ULTRASONIC / 近距感知',title:'用回声丈量身边',text:'1993 年，Bosch 超声波泊车辅助进入量产应用。传感器发出声波，再根据回波时间估计障碍物距离。它适合低速、近距离泊车提醒，却不能单独理解车道、交通灯或复杂道路场景。',question:'为什么泊车“滴滴声”越靠近就越急促？',source:'Bosch 传感器发展资料',url:'https://www.bosch-mobility.com/en/company/milestones/'},
+    {type:'RADAR / 距离与相对速度',title:'从定速到自适应巡航',text:'2000 年，Bosch 推出采用雷达的自适应巡航系统（ACC），让车辆能够根据前车调节纵向速度。雷达通过电磁波测距，并利用多普勒信息估计相对速度。辅助跟车是一项具体功能，不等于车辆具备全面自主驾驶能力。',question:'知道“多远”之外，为什么还要知道“多快”？',source:'Bosch 2013 年报里程碑',url:'https://assets.bosch.com/media/en/global/bosch_group/our_figures/publication_archive/pdf_1/GB2013.pdf'},
+    {type:'AUTONOMY / 系统整合',title:'传感器走向自主驾驶',text:'2005 年 DARPA Grand Challenge 中，Stanford 的 Stanley 率先完成沙漠赛道，最终有五支队伍完赛。这类系统将环境感知与路径规划、车辆控制连接起来。这是受限比赛场景下的研究里程碑。',question:'看见障碍之后，汽车怎样决定从哪里绕行？',source:'DARPA 官方赛事回顾',url:'https://www.darpa.mil/news/2014/grand-challenge-ten-years-later'},
+    {type:'FUSION / 从测量到理解',title:'多种感官，协同工作',text:'2010 年，Bosch 推出自动紧急制动系统，让环境感知进一步参与主动安全。视觉提供目标和场景线索，雷达补充距离与速度；激光雷达则可提供三维几何测量。此后，智能驾驶持续围绕感知、预测规划和执行闭环演进，各车型的传感器路线并不相同。',question:'不同传感器给出不同线索，系统该怎样取舍？',source:'Bosch 技术里程碑',url:'https://www.bosch-mobility.com/en/company/milestones/'},
+    {type:'CENTRAL COMPUTING / 集中计算',title:'让感知汇入计算中心',text:'2022 年，NVIDIA 宣布 DRIVE Orin 汽车计算平台进入生产阶段。这类集中计算平台承接多路传感器数据，为感知、预测与规划提供计算资源。但算力大小和传感器数量，都不能直接等同于自动驾驶能力；仍需结合具体功能、运行条件与驾驶员责任理解。',question:'感知、决策与执行如何组成闭环？现在拆开汽车看一看。',source:'NVIDIA 官方发布',url:'https://nvidianews.nvidia.com/news/nvidia-enters-production-with-drive-orin-announces-byd-and-lucid-group-as-new-ev-customers-unveils-next-gen-drive-hyperion-av-platform'}
+  ];
+// Editorial source. Embedded into index.html for single-file deployment.
+// All prose is original Chinese paraphrase; references are primary documents.
+const HISTORY_SOURCES = {
+ dartmouth:['1955 年达特茅斯研究计划原文 · Stanford 存档','http://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html'],
+ perceptron:['Cornell · Rosenblatt 与感知机回顾','https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon'],
+ shakey:['SRI · Shakey the Robot 项目史','https://www.sri.com/hoi/shakey-the-robot/'],
+ bosch:['Bosch 2013 年报 · 技术里程碑（PDF）','https://assets.bosch.com/media/en/global/bosch_group/our_figures/publication_archive/pdf_1/GB2013.pdf'],
+ alvinn:['Pomerleau · ALVINN，NIPS 1988 会议论文','https://papers.nips.cc/paper/1988/hash/812b4ba287f5ee0bc9d43bbf5bbe87fb-Abstract.html'],
+ cmu:['CMU · 1995 年横穿美国实验回顾','https://csd.cmu.edu/news/then-and-now-the-2850mile-nohands-road-trip'],
+ nhaa:['CMU · No Hands Across America 原始项目主页','https://www.cs.cmu.edu/~tjochem/nhaa/nhaa_home_page.html'],
+ deepblue:['IBM · Deep Blue 官方历史','https://www.ibm.com/history/deep-blue'],
+ stanley:['Stanford · Stanley 系统论文（PDF）','https://robots.stanford.edu/papers/thrun.stanley05.pdf'],
+ boss:['CMU · Boss 与 Urban Challenge 原始论文摘要','https://publications.ri.cmu.edu/autonomous-driving-in-urban-environments-boss-and-the-urban-challenge'],
+ imagenet:['ImageNet · 项目背景与 2009 年论文索引','https://www.image-net.org/about.php'],
+ alexnet:['Krizhevsky 等 · 深度卷积网络，NIPS 2012','https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html'],
+ kitti:['KITTI · 官方基准与采集平台','https://www.cvlibs.net/datasets/kitti/'],
+ cityscapes:['Cityscapes · 官方数据与像素级标注说明','https://www.cityscapes-dataset.com/'],
+ endtoend:['Bojarski 等 · End to End Learning，2016','https://arxiv.org/abs/1604.07316'],
+ alphago:['Google DeepMind · AlphaGo 项目史','https://deepmind.google/research/alphago/'],
+ zero:['Silver 等 · AlphaGo Zero，Nature 2017','https://www.nature.com/articles/nature24270'],
+ transformer:['Vaswani 等 · Attention Is All You Need，2017','https://arxiv.org/abs/1706.03762'],
+ bert:['Devlin 等 · BERT，2018 年预印本','https://arxiv.org/abs/1810.04805'],
+ nuscenes:['Caesar 等 · nuScenes，2019 年预印本','https://arxiv.org/abs/1903.11027'],
+ bevformer:['Li 等 · BEVFormer，ECCV 2022','https://arxiv.org/abs/2203.17270'],
+ uniad:['Hu 等 · UniAD，CVPR 2023（2022 年预印本）','https://arxiv.org/abs/2212.10156'],
+ emma:['Hwang 等 · EMMA，2024 年首发预印本','https://arxiv.org/abs/2410.23262v1']
+};
+const HISTORY_PHOTOS = {
+ shakey:{url:'https://www.sri.com/wp-content/uploads/2024/04/Shakey-the-robot-800x450.jpg',caption:'档案照片：Shakey 机器人。图片由 SRI 项目史页面提供；网页上传年份并非拍摄年份。',source:'https://www.sri.com/hoi/shakey-the-robot/'},
+ navlab:{url:'https://csd.cmu.edu/sites/default/files/nohands1_0.jpg',caption:'档案照片：CMU “No Hands Across America” 实验。来源：CMU；该页署名 Dean Pomerleau、Todd Jochem。',source:'https://csd.cmu.edu/news/then-and-now-the-2850mile-nohands-road-trip'},
+ deepblue:{url:'https://assets.ibm.com/is/image/ibm/1997_deep-blue_rematch_322?wid=1000',caption:'档案照片：1997 年复赛中的 Garry Kasparov。来源：IBM Deep Blue 历史页面。',source:'https://www.ibm.com/history/deep-blue'}
+};
+// Each issue has a four-paragraph feature, a sidebar, an explainer and a lab question.
+const NEWSPAPER_PAGES = [
+ {era:'序章 / 人工智能的起点',year:'1955—1956',tag:'AI 的名字',title:'先提出问题：机器能学会什么？',deck:'智驾史有两条相遇的线索：汽车如何测量世界，以及计算机如何把测量变成判断。',body:[
+ '1955 年 8 月 31 日，John McCarthy、Marvin Minsky、Nathaniel Rochester 和 Claude Shannon 提出一项暑期研究计划，建议在 1956 年于达特茅斯学院研究“人工智能”。计划把语言、抽象、神经网络与自我改进放进同一份议程。',
+ '这份提案并没有造出会开车的机器。它提出的是一个研究假设：学习与智能的某些方面，可以被足够精确地描述，让机器进行模拟。把研究愿景和已实现的工程能力分开，是阅读后续历史的第一步。',
+ '如果把问题移到道路上，汽车需要的不只是计算一个答案。它要从图像或测距信号中辨认环境，推测其他交通参与者的动作，再在有限时间内给出转向与制动指令。智能开始与物理世界的后果相连。',
+ '此后几十年，研究者在规则、搜索与学习之间不断组合和取舍。今天常见的“感知—预测—规划—控制”并不是提案直接给出的架构，而是机器人与汽车工程长期发展出的组织方式。'
+ ],sideTitle:'一份提案，不是一夜诞生的能力',side:'人工智能成为研究议题，并不意味着机器立即拥有通用理解力。早期议程里的语言、学习与抽象至今仍是重要问题；把它们装进汽车，还必须处理传感器误差、实时计算和执行反馈。',conceptTitle:'阅读这 20 版的三根线',concept:'测量：数据从哪里来？学习：系统怎样获得规律？行动：错误如何被发现与纠正？每个里程碑都可以沿这三根线来理解。',question:'进入实验室后，试着找出测量、计算与执行分别由哪些部件承担。',diagram:['SENSORS','REASONING','ACTION'],refs:['dartmouth']},
+ {era:'第一辑 / 学习与机器人',year:'1958',tag:'感知机',title:'让机器从错误中调节自己',deck:'感知机把“给机器写规则”之外的另一条路摆到人们面前：让参数随样本改变。',body:[
+ 'Cornell 的历史回顾记录：1958 年 7 月，Frank Rosenblatt 的感知机工作通过 IBM 704 进行演示，系统学习区分标记位于左侧或右侧的卡片。这是一项受限的分类实验，不是对任意场景的理解。',
+ '可以把感知机理解为一个带可调旋钮的判别器：输入乘以权重、合并，再依据阈值做分类；当预测与训练标签不一致，学习规则就改变权重。人不必逐个写出所有样本应如何被识别。',
+ '这条路线对后来机器视觉意义很大：图像也能变成数值输入，让模型从示例中寻找有用的判别关系。不过，单层模型的表达能力有限，训练样本以外的变化也可能让判断失效。',
+ '从感知机到汽车视觉中间隔着大量结构、数据和计算技术的进步。它留下的核心问题一直存在：训练时看过的样本，究竟能让系统应付多大范围的新情况？'
+ ],sideTitle:'“会学习”与“会理解”之间',side:'学习是参数根据数据更新的过程；泛化是面对未见样本仍能作出有效判断。训练答对更多题，并不能单独证明系统理解了所有道路情况。路面反光、阴影和遮挡都会改变输入。',conceptTitle:'从像素到权重',concept:'把一张图拆成数值，模型输出一个判断，再用正确答案计算误差。这是教学化的学习流程示意，感知机并不等于后来的深度神经网络。',question:'摄像头采到清晰图像之后，为什么还需要计算平台？',diagram:['INPUT x','WEIGHT w','CLASS'],refs:['perceptron','alvinn']},
+ {era:'第一辑 / 学习与机器人',year:'1966—1972',tag:'Shakey',title:'机器人开始把观察变成计划',deck:'从分类器走向行动者，关键不只在“认出来”，还在“下一步做什么”。',body:[
+ 'SRI 在 1966 至 1972 年间开展 Shakey 移动机器人研究。按其项目史，Shakey 能在简化环境中感知周围情况、寻找路线，并完成涉及移动简单物体的任务。',
+ '与只输出一个类别的程序相比，移动机器人必须把观察和行动串起来：建立环境描述，选择可执行步骤，移动后再观察。计划不是终点；行动改变世界，也会暴露先前判断的偏差。',
+ '室内实验环境对复杂度作了限制。道路上却有移动的车辆、行人、视野遮挡和更多规则，不能把 Shakey 的成功直接当成汽车已经具备同样能力。它展示的是系统组织方式的重要进展。',
+ '后来自动驾驶经常采用分层结构，把感知、任务规划、运动规划和控制拆开，再通过接口协同。这样的分工有利于分析错误，也带来接口信息是否充分、误差是否积累的问题。'
+ ],photo:'shakey',sideTitle:'先在可控世界里学习行动',side:'把真实问题简化，有助于看清算法是否工作。真正的挑战在于逐步放宽简化条件：光照不固定、物体会移动、地图可能过期。每放宽一项，系统都需要新的证据。',conceptTitle:'闭环比单次答案多了什么',concept:'观察 → 计划 → 执行 → 再观察。执行后的反馈能够修正原先的世界描述；车辆控制也依赖这种持续更新。',question:'系统透视中的数据流，为什么最终还要回到传感器？',diagram:['OBSERVE','PLAN','MOVE'],refs:['shakey','boss']},
+ {era:'第二辑 / 汽车获得感官',year:'1978',tag:'轮速与 ABS',title:'汽车先学会感知自己的车轮',deck:'在汽车看懂红绿灯之前，车轮转速已成为可以参与控制的电信号。',body:[
+ 'Bosch 的技术里程碑把 1978 年列为电子防抱死制动系统 ABS 进入乘用车量产的重要年份。轮速传感器持续提供各车轮的转动信息，控制器据此判断是否出现趋于抱死的状态。',
+ '在制动过程中，系统通过调节液压压力帮助车轮恢复可控滚动。它不需要先识别“前面是一辆车”，而是围绕车辆自身状态形成快速反馈。这属于本体状态感知。',
+ 'ABS 解决的是具体的制动控制问题，并不会替驾驶员决定去哪里，也不能保证任何路况下制动距离都更短。把一个安全功能称为自动驾驶，会掩盖它真正的作用与边界。',
+ '现代智驾仍需要这类车内信息：轮速、方向盘转角、惯性测量等可以帮助估计车辆运动。外部传感器告诉系统世界的线索，车辆状态传感器则说明“我正在怎样运动”。'
+ ],sideTitle:'两类感知，回答不同问题',side:'摄像头、雷达主要观察外界；轮速等信号描述车辆自身。定位与控制需要把二者放到一致的时间和坐标下。即便没有外部目标，车轮打滑也会让单一运动估计产生偏差。',conceptTitle:'测量—调节—反馈',concept:'轮速变化是输入，制动压力是可调动作，后续轮速是反馈。此处展示的是原理关系，具体产品还包含故障诊断与更复杂的控制逻辑。',question:'拆开底盘，找找执行控制与轮组为什么需要协同。',diagram:['WHEEL SPEED','CONTROLLER','BRAKE'],refs:['bosch']},
+ {era:'第二辑 / 汽车获得感官',year:'1986—1989',tag:'Navlab 与 ALVINN',title:'道路图像开始通向方向盘',deck:'CMU 的早期研究，把视觉输入、神经网络和真实实验车放到同一条链路里。',body:[
+ 'CMU 的 Navlab 自动驾驶车辆系列始于 1986 年。研究者将计算设备与传感器装到试验车上，探索如何从道路观测得到行驶方向。这时的设备体积与今天的车规计算平台很不一样。',
+ 'Pomerleau 的 ALVINN 论文收录于 NIPS 1988 会议论文集。它描述了一个三层反向传播网络，从摄像头图像与激光测距输入得到道路跟随方向，并利用模拟道路图像训练。',
+ '论文报告了在特定现场条件下跟随真实道路的实验。这说明学习方法能够连接观测与动作，但并不意味着网络已经处理完整交通规则、行人交互和所有天气条件。道路跟随只是驾驶的一部分。',
+ 'ALVINN 与后来端到端驾驶研究之间存在清晰的思想联系：减少人工指定的中间规则，让训练信号塑造内部表示。但“输入直接映射动作”的形式相近，不代表各时代的模型、数据和能力相同。'
+ ],sideTitle:'为什么还要用模拟图像？',side:'真实道路数据昂贵且覆盖有限。合成训练样本可以改变道路形状或车辆偏移，帮助系统看到不同情形；与此同时，模拟与真实成像之间的差异也可能影响效果。',conceptTitle:'别混淆会议年份与出版时间',concept:'本版以 NIPS 1988 的会议记录标注，部分书目信息使用论文集出版年 1989。这里讨论的是同一项早期 ALVINN 工作。',question:'从摄像头到转向执行器，中间必须传递哪些信息？',diagram:['ROAD IMAGE','NEURAL NET','STEERING'],refs:['alvinn','cmu']},
+ {era:'第二辑 / 汽车获得感官',year:'1993—2000',tag:'超声波与雷达',title:'从泊车回声，到跟车距离',deck:'传感器走进量产车，往往先从一个边界清晰、对驾驶员有帮助的功能开始。',body:[
+ 'Bosch 的历史里程碑列出：1993 年超声波泊车辅助进入量产应用，2000 年推出采用雷达的自适应巡航系统 ACC。两者都在测量距离，却服务于不同速度与距离范围的任务。',
+ '超声波泊车辅助通过发射声波、接收反射，利用传播时间估算近距离障碍物。低速泊车时，系统可以用提示音把距离变化传达给驾驶员；仅靠这种测距，无法理解交通灯与车道语义。',
+ '汽车雷达利用电磁波获得目标距离、相对速度等信息。ACC 将前方目标信息接入纵向控制，让车辆按设定条件调节跟车速度。跟车辅助并没有包办所有横向与纵向驾驶任务。',
+ '传感器没有脱离任务的“绝对排名”。覆盖范围、角度分辨率、遮挡、天气、安装位置与成本都会影响选型。系统需要根据具体目标组合证据，并在能力不足时采取适当措施。'
+ ],sideTitle:'同样测距，为何两种“波”？',side:'声波与电磁波的传播方式不同，硬件与信号处理也不同。近距离泊车关心周围障碍，较远距离跟车还关心目标运动。功能需求决定了对视场、刷新和误差的不同取舍。',conceptTitle:'把时间变成距离',concept:'发射信号走到目标，再反射回来；在理想条件下，距离约等于传播速度 × 往返时间 ÷ 2。真实传感器还需要处理噪声、多径和目标反射。',question:'在模型中比较毫米波雷达与摄像头各自擅长提供什么。',diagram:['EMIT','ECHO','DISTANCE'],refs:['bosch']},
+ {era:'第三辑 / 从实验室驶向道路',year:'1995',tag:'No Hands Across America',title:'横穿美国，转向交给计算机',deck:'“98.2%”是一项令人印象深刻的转向实验成绩，也需要和人工操作的部分一起阅读。',body:[
+ '1995 年，CMU 的 Dean Pomerleau 与 Todd Jochem 乘坐 Navlab 5，从匹兹堡前往圣迭戈。项目原始主页记录，约 2,849 英里的行程中有 2,797 英里使用了自动转向，比例为 98.2%。',
+ '负责转向的程序名为 RALPH，即 Rapidly Adapting Lateral Position Handler。它分析视频图像，判断道路位置与适当的转向方向；研究人员继续负责油门和制动。',
+ '因此，“No Hands”不能改写成全程完全无人驾驶。这个实验展示的是长距离真实道路上的横向控制能力，而不是一个已经独立处理所有驾驶任务的系统。项目名称和功能范围要分别理解。',
+ '长途实验的意义还在于连续暴露问题：道路外观、交通与环境会不断变化。研究车必须在时间推进中工作，而不是只在挑选的一帧图像上给出漂亮答案。这也是后来闭环评估重要的原因。'
+ ],photo:'navlab',sideTitle:'看百分比，也要问分母',side:'一个“自动化比例”可能按里程、时长或任务次数计算。这里是该次实验中自动转向的里程占比，不能据此推出所有道路上无需人类接管的概率。',conceptTitle:'三种动作，不应省略',concept:'转向控制横向运动，油门与制动影响纵向运动。解释车辆实验时，逐项说明谁负责这三项，比笼统称“自动驾驶”更有信息量。',question:'模型里的执行模块要怎样配合，才能同时完成转弯和减速？',diagram:['VISION','AUTO STEER','HUMAN PEDALS'],refs:['nhaa','cmu']},
+ {era:'第三辑 / 从实验室驶向道路',year:'1997',tag:'Deep Blue',title:'棋盘上的胜利，带来搜索的启示',deck:'机器战胜国际象棋世界冠军，是计算史的重要事件；道路却不会像棋盘一样交出完整状态。',body:[
+ '1997 年 5 月，IBM 的 Deep Blue 在六局对抗赛中战胜 Garry Kasparov。IBM 历史页面将其描述为在标准比赛条件下，计算机系统战胜在任国际象棋世界冠军的一次标志性突破。',
+ '它的能力与高速计算、棋局搜索和局面评估紧密相关。面对当前棋盘，系统比较候选走法及其后续结果；这说明机器可以通过大规模计算，在定义清楚的任务中取得很强表现。',
+ '驾驶同样需要在候选动作之间取舍，但输入条件更不完整：被遮挡的行人不可直接观测，其他司机的意图并不透明，道路行为也不能完全按确定规则展开。可搜索的模型只是现实的近似。',
+ 'Deep Blue 因而适合作为“决策需要比较后果”的科普入口。它不构成自动驾驶安全证据，也不是后来深度学习驾驶系统的直接同义词。搜索、学习与控制可以合作，但各自解决的问题不同。'
+ ],photo:'deepblue',sideTitle:'完全可见的棋盘，不完全可见的道路',side:'棋盘位置对双方公开，合法走法由规则定义。道路观测会有误差，交通参与者的未来动作还要预测。把预测当作确定事实，会让规划忽视其他可能结果。',conceptTitle:'规划可以问什么？',concept:'“如果减速，会发生什么？”“如果现在变道，可能与谁接近？”这些反事实比较依赖世界模型、约束和评价标准，不能只靠更快枚举。',question:'系统透视中，决策模块为什么还需要传感器持续更新？',diagram:['STATE','SEARCH','CHOICE'],refs:['deepblue','boss']},
+ {era:'第三辑 / 从实验室驶向道路',year:'2004',tag:'DARPA 首届挑战',title:'一次无人完赛，暴露系统的短板',deck:'荒漠挑战把“能运行一个算法”，变成“整辆车能否持续到达终点”。',body:[
+ '2004 年 DARPA Grand Challenge 要求无人车在沙漠环境中自主完成长距离路线，首届没有队伍完赛。Stanford 的 Stanley 系统论文在回顾中，把这一结果与次年的进展放在一起讨论。',
+ '比赛需要定位、地形识别、路径选择、车辆控制和整机可靠性同时工作。一个模块单独表现良好，不代表整车就能连续通过复杂路线；系统里的短板会在长时间运行中被放大。',
+ '从教学角度看，失败让问题变得具体：无法识别可行驶区域，规划就可能选择危险方向；定位偏差可能让车辆误解路线；执行环节也必须把计划准确转化成物理运动。',
+ '这类挑战的价值不只有冠军。公开任务为研究者提供了共同目标，促使团队围绕完整系统迭代。评价对象由某个算法的准确率，扩展为车辆在规定条件下能否完成任务。'
+ ],sideTitle:'系统可靠性，是串联问题',side:'感知、定位、规划和控制互相依赖。任何一环的异常都可能影响后续动作。工程上需要监测、恢复策略与持续测试，不能简单用几个模块指标的平均值代表整车表现。',conceptTitle:'把失败变成下一轮问题',concept:'先明确失败发生的条件，再区分测量错误、模型错误、决策错误与执行错误。分清原因，才能判断下一轮改进是否对准了问题。',question:'如果摄像头看不清，其他传感器能补充哪些线索？',diagram:['PERCEIVE','PLAN','RELIABILITY'],refs:['stanley','boss']},
+ {era:'第三辑 / 从实验室驶向道路',year:'2005',tag:'Stanley',title:'沙漠终点前，模块连成了系统',deck:'Stanley 的里程碑不只是某种传感器，而是让观测、定位、规划与控制协同跑完全程。',body:[
+ '2005 年，Stanford 团队的 Stanley 赢得 DARPA Grand Challenge。其原始论文记录：车辆完成约 132 英里沙漠路线，用时约 6 小时 54 分钟，赛事最终共有五辆车完赛。',
+ '系统组合了激光测距、摄像头、定位和惯性等信息。近距离地形观测与更远处视觉线索协作，帮助识别可行驶区域；车辆还必须根据路线要求和当前环境持续更新行驶策略。',
+ '论文呈现了一个完整工程系统，而不是“装上激光雷达即可无人驾驶”的故事。数据处理、概率估计、道路判断、速度选择与车辆控制共同影响结果，测试也贯穿开发过程。',
+ '沙漠比赛的完成证明了该任务条件下的能力。它没有同时证明系统能处理城市红绿灯、行人横穿和各种天气。后来的城市挑战，正是把任务中的交互与规则复杂度进一步提高。'
+ ],sideTitle:'测得更远，不等于理解更多',side:'距离信息帮助建立几何结构，视觉能提供道路外观线索。两者需要与车辆姿态、时间和坐标对齐。即便观测充分，规划仍要处理车辆能不能安全通过的问题。',conceptTitle:'融合不是把数值简单相加',concept:'先把不同来源的观测变到可比较的空间与时间，再结合各自的不确定性形成估计。融合效果取决于标定、同步、模型与异常处理。',question:'打开感知系统，观察不同探测范围为何互相覆盖。',diagram:['LASER + CAMERA','TERRAIN','TRAJECTORY'],refs:['stanley']},
+ {era:'第三辑 / 从实验室驶向道路',year:'2007',tag:'Urban Challenge',title:'从避开石头，到理解路口先后',deck:'进入城市场景，汽车不仅要绕过障碍，还要判断其他车辆接下来可能怎样行动。',body:[
+ '2007 年 DARPA Urban Challenge 把无人车任务推进到城市式道路环境。CMU 的 Boss 获胜；团队随后发表的系统论文描述了车载 GPS、激光、雷达与摄像头如何支持感知和定位。',
+ 'Boss 的规划分为任务、行为与运动三层。任务层选择街道与目标顺序，行为层处理变道和路口通行次序，运动层在局部生成避障动作。这让复杂驾驶问题有了层次化分工。',
+ '相比静止地形，其他车辆的行为会改变局面。系统不仅需要检测“那里有车”，还要追踪其运动，并根据道路关系决定等待、跟随或进入交叉口。时间维度变得更重要。',
+ '原始论文强调了迭代开发和回归测试。这提醒我们：高级感并不来自堆叠传感器数量，可靠的行为来自观测、规则、预测、规划和执行之间经过验证的配合。'
+ ],sideTitle:'为什么把规划分成三层？',side:'“去哪个街区”“此刻是否变道”“接下来走哪条曲线”涉及不同时间与空间尺度。分层有助于管理复杂性，但层之间传递的信息和失败恢复同样需要设计。',conceptTitle:'目标不等于轨迹',concept:'导航目标说明想去哪里；行为决策选择跟随、让行等策略；轨迹把策略变成随时间变化的位置和速度，再交给控制器执行。',question:'在系统模式中，从计算平台一路追踪到转向和制动。',diagram:['MISSION','BEHAVIOR','MOTION'],refs:['boss']},
+ {era:'第四辑 / 数据与深度学习',year:'2009',tag:'ImageNet',title:'数据集成为共同的试验场',deck:'机器视觉的发展，不只取决于模型，也取决于大家能否在共同数据上训练与比较。',body:[
+ 'ImageNet 的代表性论文发表于 CVPR 2009。项目按 WordNet 的概念层级组织图像，为大规模物体识别提供带标签的训练与评估资源，让不同方法有机会在共同任务上比较。',
+ '标签把图像和人类定义的类别连接起来。模型可以从大量示例中学习哪些特征与某类目标相关，而研究者则需要把训练数据与测试数据区分，避免只测出对样本的记忆。',
+ '通用图像分类不是完整的汽车感知。汽车还要知道目标在哪里、距离多远、是否在移动，以及可行驶区域如何变化。不过，大规模视觉数据推动的表示学习，成为后续道路视觉的重要技术背景。',
+ '数据也带来新的问题：采集环境是否足够多样，标签是否可靠，少见情况是否被覆盖。公开基准上的进步值得记录，但测试集之外的真实环境仍然需要独立验证。'
+ ],sideTitle:'三种数据，不要混用',side:'训练集用于更新参数，验证集帮助选择模型与配置，测试集用于最终比较。反复根据测试答案调模型，会削弱测试结果对新样本能力的说明力。',conceptTitle:'图像的公开与版权不同',concept:'ImageNet 官方说明，它不拥有所索引图像的版权。本版使用自行绘制的原理图，不将数据集中的网络图像视为可任意转载素材。',question:'车身外的摄像头要面对哪些训练样本里可能缺少的情景？',diagram:['COLLECT','LABEL','EVALUATE'],refs:['imagenet','alexnet']},
+ {era:'第四辑 / 数据与深度学习',year:'2012',tag:'AlexNet',title:'深层网络改变视觉特征的获得方式',deck:'数据、GPU 和卷积网络汇合，推动图像识别从手工设计特征转向更多地从数据学习。',body:[
+ '2012 年，Alex Krizhevsky、Ilya Sutskever 与 Geoffrey Hinton 发表大规模图像分类的深度卷积网络论文。这项通常被称为 AlexNet 的工作，成为深度学习视觉史上的重要节点。',
+ '卷积层在图像不同位置应用共享参数，逐层组合局部视觉线索。训练不只调整最后的分类器，也改变特征提取过程，让内部表示与最终任务一起优化。',
+ '原始论文强调 GPU 实现、非饱和激活函数与抑制过拟合的方法。成功来自算法、训练技巧、计算和数据的共同条件，不能归结为“网络层数更多”这一个因素。',
+ '汽车视觉后来广泛利用深度特征进行检测、分割与三维感知，但从图像类别到可靠驾驶之间仍有距离。识别一张图片里的车，与持续估计其位置并安全应对，是不同层面的任务。'
+ ],sideTitle:'准确率上升之后，问题更多了',side:'交通场景关心漏检和误检发生在哪里、什么时候、对动作有何影响。同样的平均错误率，可能对应很不一样的道路后果；速度和置信度也需要被观察。',conceptTitle:'从局部到组合',concept:'教学示意：局部线索 → 更复杂的组合 → 任务输出。真实网络的表示并不保证逐层对应人类给出的固定语义名称。',question:'计算平台为什么需要同时处理多路图像，而不只识别一张照片？',diagram:['PIXELS','FEATURES','PREDICTION'],refs:['alexnet','imagenet']},
+ {era:'第四辑 / 数据与深度学习',year:'2012—2016',tag:'KITTI 与 Cityscapes',title:'把道路问题，拆成可比较的任务',deck:'从“图里是什么”，推进到“它在哪里”“每个像素属于什么”。',body:[
+ 'KITTI 在 2012 年提出面向真实道路的视觉基准，覆盖立体视觉、光流、视觉里程计和三维目标检测等方向。其采集平台使用摄像头、激光扫描与定位系统，为不同任务提供参考数据。',
+ '这些任务回答的问题各不相同：立体视觉估计深度，里程计估计车辆运动，目标检测定位交通参与者。把问题分开，便于判断一个方法究竟改善了哪种能力。',
+ '2016 年的 Cityscapes 将城市街景语义理解推进到像素级标注。官方资料列出 50 个城市、5,000 张精细标注图像及 20,000 张粗标注图像，为场景分割提供重要资源。',
+ '分割能帮助区分道路、人行道、车辆等区域，但每个像素被分类，仍不等于系统已经知道如何通行。数据覆盖、相机条件和评价指标限制了结论可推广的范围。'
+ ],sideTitle:'检测框与语义分割',side:'检测框用一个区域指出目标；语义分割为像素分配类别；实例分割还区分同一类别的不同对象。这些表述能互补，适用目标也不同。',conceptTitle:'像素、距离与坐标',concept:'一张二维图片中的位置，不直接等于世界中的三维位置。深度估计、相机标定和坐标变换，是把视觉信息用于车辆动作的重要桥梁。',question:'旋转模型，看同一部件在不同视角中为何会遮挡和变形。',diagram:['IMAGE','DEPTH / LABELS','WORLD'],refs:['kitti','cityscapes']},
+ {era:'第四辑 / 数据与深度学习',year:'2016',tag:'端到端转向',title:'一条更短的路：从图像到转向',deck:'神经网络能否从驾驶示例中，直接学到视觉输入与动作的关系？',body:[
+ '2016 年，NVIDIA 研究团队发表《End to End Learning for Self-Driving Cars》。论文训练卷积网络，将单个前向摄像头的像素直接映射为转向指令，以人类驾驶时的转向信号进行监督。',
+ '与先显式检测车道线、再规划和控制的方案相比，这种形式让内部处理随最终转向任务联合优化。模型仍然有内部表示，只是这些表示不一定被拆成工程师逐个命名的模块。',
+ '这不是学习驾驶的首次尝试；早期 ALVINN 已探索过相关方向。2016 年工作的背景是更成熟的卷积网络、计算设备与训练方法，不能把相似思想误当成完全相同的技术实现。',
+ '从转向预测扩展到完整驾驶，还要处理纵向控制、路权、交互、长时间误差和罕见情况。离线预测与驾驶员动作相近，也不等于闭环运行中会产生同样的环境与结果。'
+ ],sideTitle:'为什么偏一点会越偏越多？',side:'模型预测的动作会改变下一刻看到的道路画面。如果训练数据很少包含偏离后的恢复状态，系统可能难以回到正常轨迹。这也是只看单帧误差不够的原因。',conceptTitle:'端到端描述优化关系',concept:'它常指输入到目标输出之间可以联合训练，并不自动意味着不需要中间结构、地图、约束或安全机制。需要根据具体论文定义来理解。',question:'把模型的感知与执行连接起来，思考反馈延迟会带来什么。',diagram:['CAMERA','LEARNED POLICY','STEER'],refs:['endtoend','alvinn']},
+ {era:'第五辑 / 学会规划与关联',year:'2016—2017',tag:'AlphaGo',title:'从对局中学习，也从后果中学习',deck:'深度网络与搜索结合，让“预测下一步”之外的长期决策受到更多关注。',body:[
+ '2016 年 3 月，AlphaGo 在首尔以 4 比 1 战胜李世石。DeepMind 的项目回顾将这一事件与深度神经网络、搜索及强化学习的结合联系起来，展示了复杂棋类任务中的决策能力。',
+ '2017 年的 AlphaGo Zero 进一步研究从自我对弈中学习。系统通过比赛结果更新策略和价值估计，而不是只模仿一张固定的人类答案表；搜索仍在选择行动中发挥作用。',
+ '这为理解学习与规划的组合提供了直观例子：策略提出值得考虑的动作，价值估计判断局面前景，搜索比较后续可能性。奖励的定义和试验环境，会深刻影响最终学到的行为。',
+ '道路与围棋具有关键差异。真实驾驶不能通过无约束试错收集失败经验，环境状态也不完全可见。因此，对局胜率不能转化成驾驶安全结论；仿真中的进步也需要额外验证。'
+ ],sideTitle:'奖励写错，方向就可能写错',side:'如果只奖励“更快到达”，系统可能忽视舒适性和其他要求。多目标任务需要恰当的约束与评估，不能把一个漂亮总分当作所有目标都达成的证据。',conceptTitle:'模仿与强化学习',concept:'模仿学习侧重从示范动作中学习；强化学习侧重动作后果与奖励。实际研究可以组合两者，也可能与搜索、规划及规则约束共同使用。',question:'规划一次绕行动作，应同时考虑哪些目标与限制？',diagram:['ACTION','OUTCOME','UPDATE'],refs:['alphago','zero']},
+ {era:'第五辑 / 学会规划与关联',year:'2017—2018',tag:'Transformer 与 BERT',title:'不只看局部，也要看信息之间的关系',deck:'注意力机制提供了一种组织上下文的方式，后来被研究者扩展到视觉与驾驶任务。',body:[
+ '2017 年《Attention Is All You Need》提出 Transformer，原始工作主要围绕序列转换和机器翻译。模型以注意力机制为核心，在输入之间建立与当前任务有关的关联。',
+ '2018 年首发的 BERT 使用双向 Transformer 编码器进行语言表示预训练，再针对具体任务微调。它进一步展示了先从大规模数据学习通用表示、再适配任务的研究路径。',
+ '这些最初的论文并不是自动驾驶系统。它们与智驾的联系来自后续研究：多摄像头之间、连续时刻之间，以及对象与道路之间，也存在需要建模的信息关系。',
+ '注意力权重不应被直接当作人类意义上的理解或可靠解释。把结构迁移到道路任务，仍然需要处理空间几何、时间同步、数据分布与闭环动作；网络结构本身不提供这些保证。'
+ ],sideTitle:'上下文，不只是一句话',side:'在驾驶感知中，同一目标可能跨越多个视角和多个时刻。关联这些线索，有助于减少只看单帧的局限；但错误关联也可能把不同对象混为一谈。',conceptTitle:'一次查询，多处取证',concept:'教学化理解：用一个查询，在多个信息位置寻找相关证据，再按权重组合。此处只是注意力的功能示意，并非完整公式或真实权重图。',question:'多路摄像头的数据如何在计算平台里相互补充？',diagram:['QUERY','CONTEXT','ATTENTION'],refs:['transformer','bert','bevformer']},
+ {era:'第五辑 / 学会规划与关联',year:'2019—2020',tag:'nuScenes',title:'数据开始记录车辆的多种感官',deck:'2019 年发布预印本、2020 年见于 CVPR 的 nuScenes，把多传感器与时间序列放进公共研究资源。',body:[
+ 'nuScenes 原始论文介绍了一个多模态自动驾驶数据集。其采集车辆配有 6 个摄像头、5 个雷达和 1 个激光雷达，形成环绕观测，为多传感器感知与跟踪研究提供数据。',
+ '论文描述的 1,000 个场景每段约 20 秒，包含带时间关系的观测和三维标注。与孤立图片相比，连续场景允许研究目标如何运动，也帮助比较使用不同传感器的方案。',
+ '多模态数据的价值在互补：图像有丰富的外观线索，测距信息提供不同形式的几何和运动证据。研究者需要同步时间、标定传感器，并在统一坐标系下进行处理。',
+ '传感器数量只是这套采集平台的配置，不是所有智驾车辆的标准答案。公开数据上的检测、跟踪指标，也不等同于整车在所有环境中的驾驶能力；覆盖范围始终有边界。'
+ ],sideTitle:'融合的第一步，常常是对齐',side:'如果两个传感器记录的不是同一时刻，同一辆运动中的车会出现在不同位置。外参标定和时间同步不准确，可能让更多数据反而产生冲突。',conceptTitle:'从单帧看到时间',concept:'位置序列提供速度与轨迹线索，也带来身份关联问题：前一帧的目标，是否就是下一帧看到的那个？跟踪需要同时处理运动和不确定性。',question:'观察系统透视中的多种探测范围，想想遮挡时还有哪些信息可用。',diagram:['CAMERA / RADAR','LIDAR / TIME','FUSED SCENE'],refs:['nuscenes','kitti']},
+ {era:'第六辑 / 空间与统一模型',year:'2022',tag:'BEVFormer',title:'让不同视角，汇入同一张俯视图',deck:'BEV 表示把空间关系放到车辆周围的坐标中；它是学习出的表示，不是一张永远正确的地图。',body:[
+ '2022 年的 BEVFormer 研究如何从多摄像头图像学习统一的鸟瞰视角表示。它利用时空 Transformer，将不同相机方向和历史时刻的信息组合，用于三维检测、地图分割等感知任务。',
+ '其空间交叉注意力让鸟瞰网格查询从相关相机图像中提取特征，时间自注意力再融合历史 BEV 信息。这样，多个透视画面中的证据可以汇入相对一致的空间表征。',
+ '俯视表示有利于描述目标之间的位置关系，也便于与规划坐标衔接。不过，相机图像到三维空间的推断仍有不确定性：远处目标、遮挡和成像变化都可能影响最终结果。',
+ 'BEVFormer 论文的贡献在于特定感知结构和基准实验。不能把检测指标提升，写成系统已经具备完整驾驶决策能力。表示、预测、规划和控制之间还需要进一步整合与验证。'
+ ],sideTitle:'俯视图，为什么方便？',side:'同一辆车在前视与侧视图里大小、形状不同；放到车辆周围的共同坐标中，更容易比较它与车道、障碍和自车的相对位置。表示方便并不意味着推断无误。',conceptTitle:'空间证据 + 历史证据',concept:'跨相机信息补充不同方向，跨时间信息补充目标运动与暂时遮挡。历史信息需要跟随自车运动对齐，否则旧证据可能被放在错误位置。',question:'切到俯视机位，比较空间坐标与透视画面描述位置的差别。',diagram:['MULTI-VIEW','SPACE + TIME','BEV GRID'],refs:['bevformer','nuscenes']},
+ {era:'第六辑 / 空间与统一模型',year:'2023—2024',tag:'UniAD 与 EMMA',title:'从多个任务，走向共同的驾驶目标',deck:'研究开始更直接地连接感知、预测、规划与多模态模型；新的结构，也带来新的评估问题。',body:[
+ 'CVPR 2023 的 UniAD 工作（预印本首发于 2022 年末）提出以规划为导向组织自动驾驶任务。它让感知与预测等组件通过统一查询接口协作，使中间任务服务于最终规划目标。',
+ '2024 年 10 月首发的 EMMA 则研究以 Gemini 等多模态大模型为基础，将摄像头输入映射到轨迹、目标和道路结构等输出，并用文本形式表达多种非传感器输入与任务输出。',
+ '两项研究路线不同：前者强调任务协同与规划目标，后者探索多模态预训练知识和统一语言空间。它们都不能简单概括为“一个模型解决全部驾驶”，更不能用语言流畅程度判断动作是否可靠。',
+ '这份简史把研究回顾收在 2024 年首发工作，未尝试列全此后的进展。回到汽车，实时性、少见场景、交互、故障处理与闭环评价仍需要证据。历史留下的共同问题是：系统看到了什么，为什么这样行动，如何知道结果可接受？'
+ ],sideTitle:'新的模型，仍要接受旧问题的检验',side:'传感器采集会有误差，训练数据覆盖有限，动作会改变后续观测。架构可以变化，但对时延、不确定性、恢复和持续测试的要求不会因模型名字改变而消失。',conceptTitle:'读论文时，先看任务边界',concept:'区分开放环节预测与闭环驾驶，区分公开数据与真实道路，区分论文研究系统与已部署产品。比较结果时，还需要对齐输入、数据、指标和实验条件。',question:'现在进入 3D 实验室，沿着“感知—决策—执行”重新讲一遍整套系统。',diagram:['PERCEPTION','JOINT MODEL','PLANNING'],refs:['uniad','emma']}
+];
+
+function historyDiagram(page,index){
+ const labels=page.diagram;
+ const shapes=labels.map((label,i)=>`<g transform="translate(${38+i*218},84)"><rect width="188" height="102" rx="3" fill="${i===1?'#d5cedc':'#e3dccb'}" stroke="#4e4a5d"/><text x="12" y="25" font-family="monospace" font-size="12" fill="#756580">0${i+1}</text><text x="94" y="65" text-anchor="middle" font-family="sans-serif" font-size="${label.length>15?12:15}" fill="#302d42">${label}</text></g>`).join('');
+ const detail=index===18?'<path d="M80 216h560M80 230h560M80 244h560M120 202v54M200 202v54M280 202v54M360 202v54M440 202v54M520 202v54M600 202v54" stroke="#aaa1af"/>':'<path d="M130 212v20H570v-20M350 232v-20" stroke="#8b8193" fill="none" stroke-dasharray="5 5"/>';
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="720" height="288" viewBox="0 0 720 288"><rect width="720" height="288" fill="#e9e1d0"/><path d="M24 48H696M24 263H696" stroke="#b6a9b6"/><text x="28" y="31" font-family="monospace" font-size="12" letter-spacing="2" fill="#62546d">AUTO LAB / ${page.year} / STUDY ${String(index+1).padStart(2,'0')}</text>${shapes}<path d="M228 135h24m-6-6 6 6-6 6M446 135h24m-6-6 6 6-6 6" stroke="#554662" fill="none" stroke-width="2"/>${detail}<text x="28" y="281" font-family="monospace" font-size="9" fill="#786b7f">CONCEPT DIAGRAM / ORIGINAL ILLUSTRATION / NOT AN ARCHIVAL PHOTOGRAPH</text></svg>`;
+ return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+}
+let newspaperPage=0;
+const pageNumber=index=>String(index+1).padStart(2,'0');
+function renderNewspaperPage(index){
+ if(!Number.isInteger(index)||!NEWSPAPER_PAGES[index])return;
+ const page=NEWSPAPER_PAGES[index],photo=HISTORY_PHOTOS[page.photo],diagram=historyDiagram(page,index);
+ newspaperPage=index;
+ $('paper-page-label').textContent=`PAGE ${pageNumber(index)} / ${NEWSPAPER_PAGES.length} · ${page.tag}`;
+ $('paper-meta').textContent=`第 ${pageNumber(index)} 版 · ${page.era}｜本版年代：${page.year}`;
+ $('paper-lead-date').textContent=`${page.year} / ${page.era}`;
+ $('paper-lead-title').textContent=page.title;
+ $('paper-lead-deck').textContent=page.deck;
+ $('paper-lead-body').replaceChildren(...page.body.map(text=>{const p=document.createElement('p');p.textContent=text;return p}));
+ const image=$('paper-lead-image');
+ image.onerror=()=>{image.onerror=null;image.src=diagram;$('paper-lead-caption').textContent='远程档案照片暂不可用，已显示本版原理示意图（自行绘制，非历史照片）。原图出处仍可在本版资料中查看。'};
+ image.src=photo?.url||diagram;
+ image.alt=photo?photo.caption:`${page.tag}原理示意：${page.diagram.join(' → ')}，非历史照片`;
+ $('paper-lead-caption').textContent=photo?.caption||`原理示意图（本项目后绘，非历史照片）：${page.diagram.join(' → ')}。用于解释本版关系，不代表完整系统结构。`;
+ $('paper-side-date').textContent='EDITOR’S NOTE / 读史旁注';
+ $('paper-side-title').textContent=page.sideTitle;
+ $('paper-side-body').textContent=page.side;
+ $('paper-concept-title').textContent=page.conceptTitle;
+ $('paper-concept-body').textContent=page.concept;
+ $('paper-question').textContent=page.question;
+ $('paper-credit').replaceChildren();
+ const heading=document.createElement('strong');heading.textContent='本版资料 / 原始文献与机构档案';$('paper-credit').append(heading);
+ const sources=page.refs.map(key=>HISTORY_SOURCES[key]);
+ if(photo)sources.push(['本版档案照片出处（图片版权归原权利人）',photo.source]);
+ sources.forEach(([label,url])=>{const a=document.createElement('a');a.href=url;a.textContent=label+' ↗';a.target='_blank';a.rel='noopener noreferrer';$('paper-credit').append(a)});
+ $('paper-prev').disabled=index===0;
+ $('paper-next').disabled=index===NEWSPAPER_PAGES.length-1;
+ $('paper-select').value=String(index);
+ $('paper-contents').querySelectorAll('[data-page]').forEach(button=>button.setAttribute('aria-current',String(Number(button.dataset.page)===index)));
+ $('paper-progress').value=index+1;
+ $('paper-progress').max=NEWSPAPER_PAGES.length;
+ try{sessionStorage.setItem('autolab-history-page',String(index))}catch{}
+}
+NEWSPAPER_PAGES.forEach((page,index)=>{
+ const option=document.createElement('option');option.value=String(index);option.textContent=`${pageNumber(index)} · ${page.year} · ${page.tag}`;$('paper-select').append(option);
+ const button=document.createElement('button');button.type='button';button.dataset.page=String(index);button.textContent=`${pageNumber(index)} / ${page.year}  ${page.tag}`;
+ button.addEventListener('click',()=>{renderNewspaperPage(index);$('paper-directory').open=false;$('paper-lead-title').focus({preventScroll:true})});$('paper-contents').append(button);
+});
+$('paper-prev').addEventListener('click',()=>renderNewspaperPage(newspaperPage-1));
+$('paper-next').addEventListener('click',()=>renderNewspaperPage(newspaperPage+1));
+$('paper-select').addEventListener('change',event=>renderNewspaperPage(Number(event.target.value)));
+let savedPage=0;try{savedPage=Number(sessionStorage.getItem('autolab-history-page')||0)}catch{}
+renderNewspaperPage(Number.isInteger(savedPage)&&savedPage>=0&&savedPage<NEWSPAPER_PAGES.length?savedPage:0);
+  document.querySelectorAll('[data-era]').forEach(button=>button.addEventListener('click',()=>{const era=ERAS[Number(button.dataset.era)];$('era-type').textContent=era.type;$('era-title').textContent=era.title;$('era-description').textContent=era.text;$('era-question').textContent=era.question;$('era-source').textContent=`阅读 ${era.source} ↗`;$('era-source').href=era.url;document.querySelectorAll('[data-era]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)))}));
+  const icon = paths => `<svg viewBox="0 0 24 24">${paths}</svg>`;
+  const glyphs = {
+    body:'<path d="m3 15 2-6 4-3h8l3 5 1 4M3 15h18v3H3zM7 9h10"/>',
+    glass:'<path d="m4 17 3-11h10l3 11H4ZM12 6v11"/>',
+    chassis:'<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7v10M17 7v10M10 10h4M10 14h4"/>',
+    wheels:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 8V3M16 12h5M12 16v5M8 12H3"/>',
+    lidar:'<path d="M3 11l4-5h11l3 5v6H3zM3 11h18M7 14h10M6 19h12"/>',
+    radar:'<path d="M5 17a8 8 0 0 1 12-12M8 14a4 4 0 0 1 6-6M11 13l8-8"/><circle cx="11" cy="13" r="1.5"/>',
+    camera:'<rect x="3" y="6" width="18" height="13" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8 6V4h8v2"/>',
+    seats:'<path d="M7 4h5a3 3 0 0 1 3 3v4h2a3 3 0 0 1 3 3v6H8v-6h3V9H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M8 20v1M18 20v1M11 14h6"/>',
+    compute:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3M10 10h4v4h-4z"/>',
+    actuators:'<path d="M3 6h18M6 6v12M18 6v12M3 18h18M6 12h12"/><circle cx="12" cy="12" r="3"/>'
+  };
+  const illustration = {
+    lidar:'<path d="M25 56l16-22h48l16 22v22H25zM25 56h80M38 65h54M40 83h49"/><rect x="39" y="60" width="52" height="12" rx="3"/><path d="M20 43L7 31M31 35L24 19M96 43l13-12M85 35l7-16" stroke-dasharray="3 4"/>',
+    compute:'<path d="m20 37 40-21 40 21-40 21-40-21Z" fill="#edf5e5"/><path d="M20 37v22l40 22 40-22V37M60 58v23M29 42v18M38 47v18M47 51v19M71 51l20-11M71 59l20-11M71 67l20-11M43 32l17-9 17 9-17 10-17-10Z"/><path d="m18 67-8 4M25 71l-8 4M32 75l-8 4M87 73l8 4M94 69l8 4"/>',
+    camera:'<path d="m23 42 50-20 25 15v33L49 88 23 73V42Z" fill="#edf5e5"/><path d="m23 42 26 16 49-21M49 58v30M31 49v17l10 6V55"/><ellipse cx="73" cy="56" rx="15" ry="18" transform="rotate(22 73 56)"/><ellipse cx="73" cy="56" rx="8" ry="11" transform="rotate(22 73 56)"/><path d="m12 31 23-12M10 42l13-8M91 17l12-5" stroke="#a3b98b"/>',
+    seats:'<path d="M28 22h24c7 0 12 5 12 12v18h11c8 0 14 6 14 14v17H35V66h12V42H28c-7 0-12-5-12-12v-2c0-3 3-6 6-6Z" fill="#edf5e5"/><path d="M35 83h54M47 66h28M45 88v6M80 88v6"/><path d="M76 17h15v10H76zM81 27v17"/>',
+    default:'<path d="m16 55 11-21 43-15 20 19 15 7v23L62 85 16 67V55Z" fill="#edf5e5"/><path d="m16 55 46 18 43-28M62 73v12M32 36l36-12 15 16-36 13-15-17ZM30 61v11M88 51v17M48 54l-2 10M71 45l7 8"/><ellipse cx="30" cy="69" rx="7" ry="10" transform="rotate(-20 30 69)"/><ellipse cx="88" cy="71" rx="7" ry="10" transform="rotate(-20 88 71)"/>'
+  };
+  const DATA = [
+    {id:'body',name:'车身外壳',en:'AERODYNAMIC BODY SHELL',system:'structure',tag:'车体结构',text:'连续截面车身包含下凹乘员舱、轮拱与车底回边。窄灯组、齐平把手与传感器窗口融入外形，减少外露零件。',stats:[['示意车长','4.92','m'],['轮拱余量','60','mm']],anchor:[-1.38,1.10,.79],delta:[0,1.40,0]},
+    {id:'glass',name:'座舱与玻璃',en:'FLUSH GLAZING & PANORAMIC ROOF',system:'structure',tag:'车体结构',text:'前风挡、全景车顶、后风挡和侧窗共享座舱曲线。玻璃有厚度与回边，风挡上沿的黑色区域遮住摄像头外壳。',stats:[['示意车高','1.73','m'],['座舱布局','4','座']],anchor:[.32,1.71,.28],delta:[0,2.55,0]},
+    {id:'chassis',name:'电池与底盘',en:'BATTERY & SUSPENSION PLATFORM',system:'control',tag:'执行系统',text:'底盘由电池包、承载梁、悬架连杆与减振组件构成。车轮和悬架共享轮轴基准，便于观察能源、支撑和执行机构的联系。',stats:[['电池容量','80','kWh'],['示意轴距','3.0','m']],anchor:[.08,.42,.68],delta:[0,0,0]},
+    {id:'wheels',name:'车轮总成',en:'AERO WHEEL & BRAKE ASSEMBLY',system:'control',tag:'执行系统',text:'低扁平轮胎、双分叉轮辐、紧固件与制动盘构成独立轮组。轮胎把驱动力和制动力传到地面，轮速反馈参与车辆控制。',stats:[['轮辋直径','21','英寸'],['轮速反馈','100','Hz']],anchor:[-1.5,.55,1.05],delta:[0,0,0]},
+    {id:'lidar',name:'激光雷达',en:'INTEGRATED SOLID-STATE LIDAR',system:'perception',tag:'感知系统',text:'前向固态激光雷达融入车顶前沿的低矮整流罩，通过暗色光学窗口测距。窗口必须透光且保持清洁，普通不透明车漆不能代替它。',stats:[['示意探测距离','200','m'],['水平视场角','120','°']],anchor:[-.45,1.67,0],delta:[-.75,1.92,-.30]},
+    {id:'radar',name:'毫米波雷达',en:'CONCEALED MILLIMETER-WAVE RADAR',system:'perception',tag:'感知系统',text:'雷达位于前保险杠后，通过专门透波区域工作，组装时没有外挂盒子。毫米波回波提供距离与相对速度信息。',stats:[['中心频率','77','GHz'],['示意探测距离','250','m']],anchor:[-2.39,.62,0],delta:[-.85,.42,0]},
+    {id:'camera',name:'多目摄像头组',en:'WINDSCREEN VISION CLUSTER',system:'perception',tag:'感知系统',text:'三枚前向摄像头集中在风挡上沿内侧，与黑色遮蔽区和镜头视窗配合。拆解后可观察镜头及外壳，组装时风挡平整。',stats:[['示意分辨率','8','MP'],['示意帧率','30','fps']],anchor:[-.55,1.53,.16],delta:[-.82,1.15,.98]},
+    {id:'compute',name:'智驾计算平台',en:'SEALED CENTRAL COMPUTING PLATFORM',system:'planning',tag:'决策规划',text:'计算平台位于座舱地板下的中央空间。散热片与密封连接器构成独立模块，融合多源信息并输出规划结果。',stats:[['示意算力','254','TOPS'],['规划更新','20','Hz']],anchor:[.18,.56,0],delta:[.38,.87,-1.12]},
+    {id:'actuators',name:'线控执行机构',en:'STEER · BRAKE · DRIVE BY WIRE',system:'control',tag:'执行系统',text:'前轴转向、四轮制动与后轴驱动控制部件位于底盘对应位置，把规划轨迹转换成转向角、制动力与驱动扭矩。',stats:[['示意控制周期','10','ms'],['控制对象','3','类']],anchor:[-1.5,.45,-.62],delta:[-.10,.49,-1.03]},
+    {id:'seats',name:'座椅与乘员舱',en:'TAILORED SEATING & INTERIOR',system:'structure',tag:'车体结构',text:'四张座椅有弧形坐垫、后倾靠背、头枕与缝线。浅灰内饰与深色结构区分，乘员舱包含仪表台、屏幕、方向盘与扶手。',stats:[['座位数量','4','座'],['座椅布局','2 + 2','示意']],anchor:[-.20,1.28,.43],delta:[0,2.0,0]}
+  ];
+  const catalog = new Map(DATA.map(d=>[d.id,d]));
+  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+  const saved = (()=>{try{return JSON.parse(localStorage.getItem('autolab-visited-v1')||'[]')}catch{return []}})();
+  const state = {mode:'hardware',exploded:false,selected:'lidar',system:'all',visited:new Set(Array.isArray(saved)?saved.filter(id=>catalog.has(id)):[]),paused:false};
+  let sceneApi = null, toastTimer;
+  const duration = () => motionQuery.matches ? .01 : 1.15;
+  function toast(text){$('toast').textContent=text;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),3200)}
+  function updateProgress(){const n=state.visited.size;$('progress-count').textContent=`${n}/10`;$('progress-ring').style.setProperty('--progress',`${n/10*100}%`);$('progress-title').textContent=n===10?'智能全貌，已被你发现':n===0?'你的探索，刚刚开始':`已发现 ${n} 个智能部件`;$('progress-description').textContent=n===10?'继续切换系统，观察它们如何协同':`发现 10 个部件，解锁智能全貌`;document.querySelectorAll('.part-row').forEach(b=>b.querySelector('.seen').textContent=state.visited.has(b.dataset.id)?'✓':'');try{localStorage.setItem('autolab-visited-v1',JSON.stringify([...state.visited]))}catch{}}
+  function updateCard(id,visit=false){const d=catalog.get(id);if(!d)return;state.selected=id;if(visit)state.visited.add(id);$('card-number').textContent=`COMPONENT / ${String(DATA.indexOf(d)+1).padStart(2,'0')}`;$('card-tag').textContent=d.tag;$('card-en').textContent=d.en;$('card-title').textContent=d.name;$('card-description').textContent=d.text;$('card-illustration').innerHTML=illustration[id]||illustration.default;$('card-stats').innerHTML=d.stats.map(([label,value,unit])=>`<div><div class="stat-label">${label}</div><div class="stat-value">${value}<small>${unit}</small></div></div>`).join('');document.querySelectorAll('.part-row,.anchor').forEach(b=>{const active=b.dataset.id===id;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active))});updateProgress();sceneApi?.highlight()}
+  $('parts-list').innerHTML=DATA.map((d,i)=>`<button class="part-row" data-id="${d.id}" aria-pressed="false"><span class="number">${String(i+1).padStart(2,'0')}</span><span class="part-glyph">${icon(glyphs[d.id])}</span><span>${d.name}</span><span class="seen"></span></button>`).join('');
+  document.querySelectorAll('.part-row').forEach(b=>b.addEventListener('click',()=>sceneApi?.select(b.dataset.id)));
+  updateCard('lidar');
+  $('help-button').onclick=()=>$('guide').showModal();$('close-guide').onclick=()=> $('guide').close();$('start-exploring').onclick=()=> $('guide').close();$('guide').addEventListener('click',e=>{if(e.target===$('guide')){const r=$('guide').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('guide').close()}});
+  function showFailure(error){console.error(error);const l=$('loading');l.className='loading failed';l.replaceChildren();const t=document.createElement('strong');t.textContent='3D 实验室暂时未能启动';const p=document.createElement('small');p.textContent='请确认浏览器支持 WebGL 2，并可访问 cdn.jsdelivr.net。可通过本地静态服务器打开本文件。';const detail=document.createElement('small');detail.textContent=error?.message||String(error);const retry=document.createElement('button');retry.textContent='重新加载';retry.onclick=()=>location.reload();l.append(t,p,detail,retry);l.hidden=false}
+  try {
+    const [THREE,{OrbitControls},{RoundedBoxGeometry},{RoomEnvironment},{mergeGeometries},{gsap}] = await Promise.all([
+      import('three'),import('three/addons/controls/OrbitControls.js'),import('three/addons/geometries/RoundedBoxGeometry.js'),import('three/addons/environments/RoomEnvironment.js'),import('three/addons/utils/BufferGeometryUtils.js'),import('https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm')
+    ]);
+    // Geometry contract: metres; +X rear, +Y up, +Z left; front is -X.
+    // Body and tyres share their axle datum (0.465 m arch / 0.405 m tyre).
+    // Bevelled housings, transparent solid canopy, named independent assemblies.
+    const CONTRACT={length:4.92,width:2.27,height:1.73,wheelbase:3.0,wheelY:.405,wheelRadius:.405,archRadius:.465};
+    const host=$('viewport'),root=new THREE.Group(),scene=new THREE.Scene();scene.add(root);host.tabIndex=0;
+    const camera=new THREE.PerspectiveCamera(36,1,.08,90);
+    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance',preserveDrawingBuffer:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<650?1.5:1.75));renderer.setClearColor(0,0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;host.appendChild(renderer.domElement);
+    const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.075;controls.minDistance=2.2;controls.maxDistance=20;controls.maxPolarAngle=Math.PI*.485;controls.autoRotateSpeed=.65;controls.enablePan=true;controls.target.set(0,.72,0);
+    const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
+    const ambient=new THREE.HemisphereLight(0xd6e1f0,0x171c2d,.65);scene.add(ambient);
+    const key=new THREE.DirectionalLight(0xf1f3ff,2.35);key.position.set(-3,7,5);key.castShadow=true;key.shadow.mapSize.set(innerWidth<650?1024:2048,innerWidth<650?1024:2048);Object.assign(key.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:.5,far:18});key.shadow.bias=-.00035;key.shadow.normalBias=.015;scene.add(key);
+    const rim=new THREE.DirectionalLight(0x9aafff,1.45);rim.position.set(3,4,-4);scene.add(rim);
+    const color={perception:0x6b9fff,planning:0xa789ff,control:0xdd8fe7,structure:0x8296cf};
+    const materials={
+      paint:new THREE.MeshPhysicalMaterial({color:0x53657d,metalness:.68,roughness:.34,clearcoat:.65,clearcoatRoughness:.25}),
+      dark:new THREE.MeshStandardMaterial({color:0x10151d,metalness:.38,roughness:.31}),
+      rubber:new THREE.MeshStandardMaterial({color:0x17191c,metalness:0,roughness:.87}),
+      metal:new THREE.MeshStandardMaterial({color:0xb4bdc8,metalness:.88,roughness:.26}),
+      brake:new THREE.MeshStandardMaterial({color:0x40464f,metalness:.75,roughness:.55}),
+      glass:new THREE.MeshPhysicalMaterial({color:0x0b1721,metalness:.16,roughness:.18,clearcoat:.6,transparent:true,opacity:.95,depthWrite:false}),
+      mirror:new THREE.MeshStandardMaterial({color:0x7a91a1,metalness:1,roughness:.10}),
+      green:new THREE.MeshStandardMaterial({color:0x719dd4,metalness:.5,roughness:.28}),
+      blue:new THREE.MeshStandardMaterial({color:0x526988,metalness:.7,roughness:.34}),
+      light:new THREE.MeshStandardMaterial({color:0xe4efff,emissive:0xc6e4ff,emissiveIntensity:2.1}),
+      lens:new THREE.MeshStandardMaterial({color:0xafc5d8,emissive:0x7eafdb,emissiveIntensity:.9,metalness:.4,roughness:.15}),
+      red:new THREE.MeshStandardMaterial({color:0xb2233a,emissive:0xe92344,emissiveIntensity:1.8}),
+      orange:new THREE.MeshStandardMaterial({color:0x928db3,metalness:.5,roughness:.34}),
+      caliper:new THREE.MeshStandardMaterial({color:0x6f7082,metalness:.6,roughness:.36}),
+      seat:new THREE.MeshStandardMaterial({color:0xb3b0a7,metalness:0,roughness:.84}),
+      seatTrim:new THREE.MeshStandardMaterial({color:0x444b57,metalness:.05,roughness:.65}),
+      optic:new THREE.MeshPhysicalMaterial({color:0x050c15,metalness:.35,roughness:.10,clearcoat:1}),
+      display:new THREE.MeshStandardMaterial({color:0x0b1422,emissive:0x223e61,emissiveIntensity:.65,metalness:.15,roughness:.18})
+    };
+    const parts=new Map(),pickables=[],wheelGroups=[],anchorEntries=[],flows=[],halos=[];
+    function part(id){const group=new THREE.Group();group.name=id;root.add(group);const data=catalog.get(id);parts.set(id,{group,data,meshes:[],home:new THREE.Vector3(),delta:new THREE.Vector3(...data.delta)});return group}
+    function mesh(parent,geo,mat,pos=[0,0,0],name=''){const o=new THREE.Mesh(geo,mat);o.name=(name||geo.name||parent.name+'-detail')+'-'+parent.children.length;o.position.set(...pos);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+    function box(parent,size,pos,mat=materials.dark,r=.025,name=''){return mesh(parent,new RoundedBoxGeometry(...size,2,Math.min(r,...size.map(v=>v*.35))),mat,pos,name)}
+    function cylinder(parent,rTop,rBottom,h,pos,mat=materials.metal,segments=32){return mesh(parent,new THREE.CylinderGeometry(rTop,rBottom,h,segments),mat,pos)}
+    function cable(parent,points,r,mat=materials.dark){const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));return mesh(parent,new THREE.TubeGeometry(curve,28,r,6,false),mat)}
+    // Polygon-first loft compiler. Concave end caps use ear clipping (the cabin is open).
+    const loftReports=[];
+    function checkedGeometry(name,vertices,I){
+      const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();
+      let vol=0,degenerate=0,nonFinite=0;const edges=new Map();
+      for(const n of vertices)if(!Number.isFinite(n))nonFinite++;
+      for(let i=0;i<I.length;i+=3){
+        a.fromArray(vertices,I[i]*3);b.fromArray(vertices,I[i+1]*3);c.fromArray(vertices,I[i+2]*3);
+        vol+=a.dot(new THREE.Vector3().crossVectors(b,c))/6;
+        if(new THREE.Vector3().subVectors(b,a).cross(new THREE.Vector3().subVectors(c,a)).lengthSq()<1e-15)degenerate++;
+        for(let k=0;k<3;k++){const v=I[i+k],w=I[i+(k+1)%3],key=v<w?v+':'+w:w+':'+v;edges.set(key,(edges.get(key)||0)+1)}
+      }
+      if(vol<0)for(let i=0;i<I.length;i+=3)[I[i+1],I[i+2]]=[I[i+2],I[i+1]];
+      const openEdges=[...edges.values()].filter(n=>n!==2).length;
+      loftReports.push({name,vertices:vertices.length/3,triangles:I.length/3,volume:Math.abs(vol),openEdges,degenerate,nonFinite});
+      if(openEdges||degenerate||nonFinite||Math.abs(vol)<1e-9)throw new Error(name+': invalid closed geometry');
+      const g=new THREE.BufferGeometry();g.name=name;g.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));g.setIndex(I);g.computeVertexNormals();g.computeBoundingBox();return g;
+    }
+    function loft(name,rings){
+      const vertices=rings.flat(2),N=rings[0].length,I=[];
+      for(let i=0;i<rings.length-1;i++)for(let j=0;j<N;j++){const a=i*N+j,b=i*N+(j+1)%N,c=(i+1)*N+(j+1)%N,d=(i+1)*N+j;I.push(a,b,c,a,c,d)}
+      for(const [k,sign] of [[0,-1],[rings.length-1,1]]){
+        const ring=rings[k],next=rings[k===0?1:k-1],dir=new THREE.Vector3(...ring[0]).sub(new THREE.Vector3(...next[0]));
+        if(k===0)dir.negate();dir.multiplyScalar(sign);
+        const normal=new THREE.Vector3();ring.forEach((p,i)=>{const q=ring[(i+1)%N];normal.x+=(p[1]-q[1])*(p[2]+q[2]);normal.y+=(p[2]-q[2])*(p[0]+q[0]);normal.z+=(p[0]-q[0])*(p[1]+q[1])});
+        const axis=Math.abs(normal.x)>Math.abs(normal.y)&&Math.abs(normal.x)>Math.abs(normal.z)?0:Math.abs(normal.y)>Math.abs(normal.z)?1:2;
+        const contour=ring.map(p=>new THREE.Vector2(p[(axis+1)%3],p[(axis+2)%3]));
+        const triangles=THREE.ShapeUtils.triangulateShape(contour,[]);
+        for(let [a,b,c] of triangles){
+          const ab=new THREE.Vector3(...ring[b]).sub(new THREE.Vector3(...ring[a])),ac=new THREE.Vector3(...ring[c]).sub(new THREE.Vector3(...ring[a]));
+          if(ab.cross(ac).dot(dir)<0)[b,c]=[c,b];I.push(k*N+a,k*N+b,k*N+c);
+        }
+      }
+      return checkedGeometry(name,vertices,I);
+    }
+    // Shape-preserving cubic tracks: continuous crossover shoulders and roof, no stacked slabs.
+    function track(knots){const d=knots.slice(1).map((p,i)=>(p[1]-knots[i][1])/(p[0]-knots[i][0]));const m=knots.map((p,i)=>i===0?d[0]:i===knots.length-1?d.at(-1):d[i-1]*d[i]<=0?0:(d[i-1]+d[i])/2);d.forEach((v,i)=>{if(!v){m[i]=m[i+1]=0;return}const a=m[i]/v,b=m[i+1]/v,s=a*a+b*b;if(s>9){const t=3/Math.sqrt(s);m[i]=t*a*v;m[i+1]=t*b*v}});return x=>{let i=1;while(i<knots.length-1&&x>knots[i][0])i++;const [x0,y0]=knots[i-1],[x1,y1]=knots[i],h=x1-x0,t=THREE.MathUtils.clamp((x-x0)/h,0,1);return (2*t**3-3*t*t+1)*y0+(t**3-2*t*t+t)*h*m[i-1]+(-2*t**3+3*t*t)*y1+(t**3-t*t)*h*m[i]}}
+    // V4 vehicle: shared section tracks, real recessed cabin, solid glazing panels.
+    // Metres: front -X, left +Z, up +Y. The wheel / aperture datum is authoritative.
+    const smooth01=t=>{t=THREE.MathUtils.clamp(t,0,1);return t*t*(3-2*t)};
+    const shoulder=track([[-2.46,.88],[-2.23,.99],[-1.52,1.105],[-.80,1.10],[.30,1.115],[1.50,1.12],[2.16,1.045],[2.46,.96]]);
+    const halfWidth=track([[-2.46,.69],[-2.25,.87],[-1.50,1.005],[-.65,.976],[.48,.985],[1.50,1.012],[2.20,.90],[2.46,.76]]);
+    const canopyHeight=track([[-1.28,1.10],[-1.02,1.29],[-.52,1.62],[-.02,1.727],[.52,1.71],[1.04,1.60],[1.52,1.35],[1.88,1.115]]);
+    const cabinWidth=x=>halfWidth(x)*.842;
+    const wheelLow=x=>{let y=.335;for(const axle of [-1.5,1.5]){const d=x-axle;if(Math.abs(d)<CONTRACT.archRadius)y=Math.max(y,CONTRACT.wheelY+Math.sqrt(CONTRACT.archRadius**2-d*d))}return y};
+    function sideSurface(x,t,side=1,proud=0){
+      const w=halfWidth(x),low=wheelLow(x),h=shoulder(x);
+      return [x,THREE.MathUtils.lerp(low+.012,h-.010,t),side*(w*(.955+.045*Math.sin(Math.PI*t)-.075*t**5)+proud)];
+    }
+    function bodyRing(x){
+      const w=halfWidth(x),h=shoulder(x),low=wheelLow(x);
+      const recess=smooth01((x+1.22)/.25)*(1-smooth01((x-1.34)/.28));
+      const c=THREE.MathUtils.lerp(h+.045,.575,recess);
+      const half=[[x,c,0],[x,c-.004*(1-recess),w*.40],[x,c-.015*(1-recess)+.005*recess,w*.58],[x,c-.022*(1-recess)+.020*recess,w*.66],[x,h-.012,w*.79],[x,h-.004,w*.82]];
+      for(let i=10;i>=0;i--)half.push(sideSurface(x,i/10));
+      half.push([x,low-.008,w*.82],[x,.40+.13*recess,w*.64],[x,.40+.155*recess,0]);
+      return [...half,...half.slice(1,-1).reverse().map(p=>[p[0],p[1],-p[2]])];
+    }
+    const shell=part('body');
+    mesh(shell,loft('v4-recessed-monocoque',Array.from({length:221},(_,i)=>bodyRing(-2.46+i*4.92/220))),materials.paint);
+    // Thick parametric panels: outer surface / inset inner surface / perimeter return.
+    function panel(name,fn,nu=36,nv=16,thickness=.009,inside=[0,-1,0]){
+      const v=[],I=[],stride=nv+1,N=(nu+1)*stride;
+      for(const layer of [0,1])for(let u=0;u<=nu;u++)for(let t=0;t<=nv;t++){
+        const p=fn(u/nu,t/nv);v.push(p[0]+inside[0]*thickness*layer,p[1]+inside[1]*thickness*layer,p[2]+inside[2]*thickness*layer);
+      }
+      const tri=(a,b,c,d)=>I.push(a,b,c,a,c,d);
+      for(let u=0;u<nu;u++)for(let t=0;t<nv;t++){const a=u*stride+t,b=a+stride;tri(a,b,b+1,a+1);tri(a+N,a+1+N,b+1+N,b+N)}
+      const edge=[];for(let u=0;u<=nu;u++)edge.push(u*stride);for(let t=1;t<=nv;t++)edge.push(nu*stride+t);for(let u=nu-1;u>=0;u--)edge.push(u*stride+nv);for(let t=nv-1;t>0;t--)edge.push(t);
+      edge.forEach((a,i)=>{const b=edge[(i+1)%edge.length];tri(a,a+N,b+N,b)});
+      return checkedGeometry(name,v,I);
+    }
+    function canopy(x,t){
+      const a=t*Math.PI/2,h=canopyHeight(x),base=shoulder(x)-.005;
+      return [x,base+(h-base)*Math.pow(Math.max(0,Math.cos(a)),.67),cabinWidth(x)*Math.sin(a)];
+    }
+    const linePoints=(fn,n=40)=>Array.from({length:n},(_,i)=>fn(i/(n-1)));
+    const glassGroup=part('glass');
+    for(const [name,x0,x1] of [['front-windscreen',-1.275,-.49],['panoramic-roof',-.485,1.015],['rear-screen',1.02,1.875]]){
+      mesh(glassGroup,panel(name,(u,v)=>canopy(THREE.MathUtils.lerp(x0,x1,u),THREE.MathUtils.lerp(-.615,.615,v)),48,24,.012),materials.glass);
+    }
+    for(const side of [-1,1]){
+      const inward=[0,0,-side];
+      mesh(glassGroup,panel('side-glazing-'+side,(u,v)=>canopy(-1.272+u*3.145,side*(.62+v*.367)),64,14,.009,inward),materials.glass);
+      // Sculpted roof ribbons, not chrome pipes; all edges use the canopy datum.
+      mesh(glassGroup,panel('roof-ribbon-'+side,(u,v)=>{const p=canopy(-1.278+u*3.152,side*(.595+v*.055));p[1]+=.008;return p},70,5,.015),materials.paint);
+      mesh(glassGroup,panel('belt-seal-'+side,(u,v)=>canopy(-1.275+u*3.15,side*(.985+v*.015)),64,3,.012,inward),materials.dark);
+      mesh(glassGroup,panel('b-pillar-'+side,(u,v)=>{const p=canopy(.14+u*.065,side*(.649+v*.333));p[2]+=side*.003;return p},6,14,.018,inward),materials.dark);
+      mesh(glassGroup,panel('rear-quarter-pillar-'+side,(u,v)=>{const p=canopy(1.24+u*.10,side*(.649+v*.333));p[2]+=side*.004;return p},8,14,.018,inward),materials.paint);
+      cable(glassGroup,linePoints(t=>{const p=canopy(-1.26+t*3.12,side*.976);p[2]+=side*.004;return p}),.004,materials.metal);
+      // Door reveals lie on the actual exterior surface, including the curved shut line.
+      for(const x of [-.94,.25,1.17])cable(shell,linePoints(t=>sideSurface(x-(1-t)*.12,1-t,side,.002),28),.0023,materials.dark);
+      cable(shell,linePoints(t=>sideSurface(-1.02+t*2.03,.045,side,.003)),.003,materials.dark);
+      for(const x of [-.11,.92]){
+        const p=sideSurface(x,.87,side,.003);
+        box(shell,[.18,.021,.015],p,materials.dark,.006,'flush-handle');
+      }
+      // Low sill insert and discrete charge flap.
+      mesh(shell,panel('lower-sill-'+side,(u,v)=>sideSurface(-.99+u*2.0,v*.115,side,.004),34,4,.015,[0,0,-side]),materials.dark);
+      const flap=sideSurface(1.86,.62,side,.004);box(shell,[.17,.14,.012],flap,materials.paint,.022,'charge-flap');
+      // Frameless, aero-shaped wing mirrors with a real neck and recessed mirror face.
+      cable(shell,[[-.96,1.08,side*.86],[-.91,1.075,side*1.025]],.018,materials.dark);
+      const mirror=box(shell,[.25,.075,.15],[-.91,1.10,side*1.05],materials.paint,.032,'aero-mirror');mirror.rotation.y=side*.10;
+      box(shell,[.19,.049,.012],[-.895,1.103,side*1.128],materials.mirror,.014,'mirror-glass');
+      // Arch edge uses the same radius as the aperture, with a small visible black reveal.
+      for(const axle of [-1.5,1.5]){
+        cable(shell,linePoints(t=>{const a=t*Math.PI,x=axle+CONTRACT.archRadius*Math.cos(a);return [x,CONTRACT.wheelY+CONTRACT.archRadius*Math.sin(a)+.003,side*halfWidth(x)*.956]},64),.008,materials.dark);
+      }
+    }
+    // Front light blades, separate projector optics, restrained lower intake.
+    box(shell,[.028,.065,1.34],[-2.468,.817,0],materials.dark,.017,'front-optical-band');
+    box(shell,[.030,.014,1.25],[-2.486,.833,0],materials.light,.005,'full-width-drl');
+    for(const side of [-1,1]){
+      for(let i=0;i<3;i++)box(shell,[.014,.021,.045],[-2.487,.800,side*(.46+i*.069)],materials.lens,.006,'headlight-projector');
+      box(shell,[.035,.11,.045],[-2.453,.56,side*.62],materials.dark,.012,'air-curtain');
+    }
+    box(shell,[.045,.105,1.13],[-2.474,.448,0],materials.dark,.035,'lower-air-inlet');
+    box(shell,[.027,.025,1.19],[-2.491,.383,0],materials.metal,.007,'front-splitter');
+    box(shell,[.032,.065,1.42],[2.468,.872,0],materials.dark,.022,'tail-light-housing');
+    box(shell,[.036,.014,1.34],[2.488,.881,0],materials.red,.005,'rear-light-blade');
+    box(shell,[.13,.034,1.40],[2.41,1.015,0],materials.dark,.013,'rear-spoiler-lip');
+    box(shell,[.07,.10,1.24],[2.466,.41,0],materials.dark,.028,'rear-diffuser');
+    for(const z of [-.43,0,.43])box(shell,[.20,.045,.014],[2.39,.357,z],materials.dark,.004,'diffuser-fin');
+    // Hood reveals follow the deck. No floating trim on the windshield.
+    for(const side of [-1,1])cable(shell,linePoints(t=>{const x=-2.31+t*.96;return [x,shoulder(x)+.014,side*halfWidth(x)*.61]}),.002,materials.dark);
+    const chassis=part('chassis');
+    box(chassis,[3.65,.18,1.46],[0,.295,0],materials.dark,.055,'battery-enclosure');
+    box(chassis,[2.47,.045,1.32],[.02,.404,0],materials.metal,.018,'battery-lid');
+    for(let i=0;i<10;i++)box(chassis,[.20,.028,1.18],[-1.04+i*.231,.443,0],materials.blue,.009,'battery-module');
+    for(const z of [-.73,.73])box(chassis,[3.86,.10,.07],[0,.36,z],materials.metal,.018,'side-rail');
+    for(const x of [-1.5,1.5]){
+      const axle=cylinder(chassis,.038,.038,1.60,[x,CONTRACT.wheelY,0]);axle.rotation.x=Math.PI/2;
+      for(const side of [-1,1]){
+        cable(chassis,[[x-.15,.35,side*.53],[x,.40,side*.82],[x+.15,.35,side*.53]],.026,materials.metal);
+        const spring=cylinder(chassis,.057,.057,.22,[x,.54,side*.70],materials.dark,20);
+        for(const y of [.47,.51,.55,.59]){const r=mesh(chassis,new THREE.TorusGeometry(.06,.008,6,24),materials.metal,[x,y,side*.70]);r.rotation.x=Math.PI/2}
+      }
+    }
+    // Curved upholstered seats: cushion, tapered reclined back, integrated head restraint.
+    const seats=part('seats');
+    function superellipseRing(cx,y,cz,rx,rz,n=28){
+      return Array.from({length:n},(_,j)=>{const a=j/n*Math.PI*2,ca=Math.cos(a),sa=Math.sin(a);return [cx+rx*Math.sign(ca)*Math.abs(ca)**.55,y,cz+rz*Math.sign(sa)*Math.abs(sa)**.55]});
+    }
+    function seatUnit(x,z,label){
+      for(const side of [-1,1])box(seats,[.54,.035,.035],[x,.596,z+side*.17],materials.metal,.008,label+'-rail');
+      box(seats,[.44,.045,.39],[x,.636,z],materials.dark,.014,label+'-base');
+      const cushionRings=Array.from({length:13},(_,i)=>{const t=i/12,y=.66+.13*t,puff=Math.sin(Math.PI*t);return superellipseRing(x-.025,y,z,.265+.027*puff,.215+.020*puff)});
+      mesh(seats,loft(label+'-cushion',cushionRings),materials.seat);
+      const rear=x>0,backH=rear?.46:.52,headY=rear?1.24:1.30;
+      const backRings=Array.from({length:22},(_,i)=>{const t=i/21,y=.77+backH*t;return superellipseRing(x+.18+t*.092,y,z,.065+Math.sin(Math.PI*t)*.028,.237-.045*t)});
+      mesh(seats,loft(label+'-back',backRings),materials.seat);
+      const head=Array.from({length:9},(_,i)=>{const t=i/8;return superellipseRing(x+.27+.015*t,headY+.17*t,z,.046+Math.sin(Math.PI*t)*.012,.145+.008*Math.sin(Math.PI*t))});
+      mesh(seats,loft(label+'-headrest',head),materials.seat);
+      for(const side of [-1,1]){
+        cable(seats,[[x-.25,.746,z+side*.205],[x-.08,.773,z+side*.228],[x+.18,.755,z+side*.205]],.003,materials.seatTrim);
+        cable(seats,[[x+.104,.81,z+side*.212],[x+.15,rear?1.02:1.05,z+side*.213],[x+.215,rear?1.20:1.26,z+side*.176]],.003,materials.seatTrim);
+        const buckle=box(seats,[.045,.055,.025],[x+.13,.78,z+side*.267],materials.dark,.007,label+'-belt-buckle');
+      }
+      // Three restrained stitched channels survive the useful inspection distance.
+      for(const dz of [-.09,0,.09])cable(seats,[[x-.18,.789,z+dz],[x-.02,.797,z+dz],[x+.12,.782,z+dz]],.0015,materials.seatTrim);
+    }
+    for(const [row,x] of [['front',-.53],['rear',.84]])for(const side of [-1,1])seatUnit(x,side*.405,row+'-'+side);
+    box(seats,[.65,.12,.205],[.02,.68,0],materials.dark,.04,'center-console');
+    box(seats,[.34,.06,.215],[.17,.77,0],materials.seat,.028,'armrest');
+    box(seats,[.24,.14,1.36],[-1.13,.94,0],materials.dark,.05,'dashboard');
+    cable(seats,[[-1.15,1.022,-.61],[-1.13,1.032,0],[-1.15,1.022,.61]],.004,materials.seatTrim);
+    box(seats,[.032,.25,.38],[-.995,1.11,0],materials.dark,.018,'center-screen-frame');
+    box(seats,[.008,.215,.34],[-.973,1.11,0],materials.display,.009,'center-screen');
+    const steering=mesh(seats,new THREE.TorusGeometry(.145,.014,10,44),materials.dark,[-.91,1.037,.405]);steering.rotation.y=Math.PI/2;
+    box(seats,[.04,.06,.20],[-.91,1.037,.405],materials.dark,.012,'steering-hub');
+    // Low-profile tyres with a real carcass section; five paired machined aero spokes.
+    const wheels=part('wheels');
+    for(const x of [-1.5,1.5])for(const side of [-1,1]){
+      const w=new THREE.Group();w.name='wheel-'+x+'-'+side;w.position.set(x,CONTRACT.wheelY,side*.965);
+      w.userData.home=w.position.clone();w.userData.delta=new THREE.Vector3(x<0?-.10:.10,0,side*.67);wheels.add(w);wheelGroups.push(w);
+      const profile=[[.289,-.112],[.325,-.135],[.366,-.135],[.392,-.112],[.405,-.082],[.405,.082],[.392,.112],[.366,.135],[.325,.135],[.289,.112]].map(p=>new THREE.Vector2(...p));
+      const tireGeometry=new THREE.LatheGeometry([...profile,profile[0]],80);tireGeometry.computeVertexNormals();
+      const tire=mesh(w,tireGeometry,materials.rubber);tire.rotation.x=Math.PI/2;
+      const rimProfile=[[.289,-.105],[.30,-.105],[.30,.105],[.289,.105],[.289,-.105]].map(p=>new THREE.Vector2(...p));
+      const rimGeometry=new THREE.LatheGeometry(rimProfile,64);rimGeometry.computeVertexNormals();
+      const barrel=mesh(w,rimGeometry,materials.dark);barrel.rotation.x=Math.PI/2;
+      const disk=cylinder(w,.239,.239,.024,[0,0,side*.068],materials.brake,56);disk.rotation.x=Math.PI/2;
+      box(w,[.065,.16,.06],[.192,0,side*.075],materials.caliper,.017,'brake-caliper');
+      for(const r of [.296,.274])mesh(w,new THREE.TorusGeometry(r,.007,8,64),materials.metal,[0,0,side*.126]);
+      for(let i=0;i<5;i++){
+        const a=i*Math.PI*2/5,shape=new THREE.Shape();
+        const pts=[[.076,-.028],[.17,-.025],[.281,-.055],[.283,-.025],[.19,0],[.283,.025],[.281,.055],[.17,.025],[.076,.028]];
+        pts.forEach(([r,t],j)=>{const px=Math.cos(a)*r-Math.sin(a)*t,py=Math.sin(a)*r+Math.cos(a)*t;j?shape.lineTo(px,py):shape.moveTo(px,py)});shape.closePath();
+        mesh(w,new THREE.ExtrudeGeometry(shape,{depth:.017,bevelEnabled:true,bevelSize:.0035,bevelThickness:.0035,bevelSegments:2,steps:1}),materials.metal,[0,0,side*.119-(side<0?.017:0)],'diamond-cut-spoke');
+      }
+      const hub=cylinder(w,.072,.072,.036,[0,0,side*.145],materials.dark,40);hub.rotation.x=Math.PI/2;
+      for(let i=0;i<5;i++){const a=i*Math.PI*2/5,lug=cylinder(w,.009,.009,.012,[Math.cos(a)*.045,Math.sin(a)*.045,side*.168],materials.metal,12);lug.rotation.x=Math.PI/2}
+      for(const r of [.344,.37])mesh(w,new THREE.TorusGeometry(r,.0015,5,72),materials.dark,[0,0,side*.135]);
+    }
+    // Sensor optics remain exposed to the outside through purposeful dark windows.
+    // Housings are inside the vehicle envelope in assembly; explode reveals the hardware.
+    const lidar=part('lidar');
+    box(lidar,[.34,.055,.33],[-.40,1.638,0],materials.dark,.022,'solid-state-lidar-core');
+    box(lidar,[.016,.047,.28],[-.578,1.656,0],materials.optic,.01,'lidar-optical-window');
+    // A gently faired cover, carried by the roof assembly. 47 mm maximum roof projection.
+    const brow=Array.from({length:25},(_,i)=>{
+      const t=i/24,x=-.60+t*.46,h=canopyHeight(x),w=.19*(1-.34*smooth01(t));
+      const lift=.037*(1-smooth01(t)),r=[];
+      for(let j=0;j<24;j++){const a=j/24*Math.PI*2;r.push([x,h+.004+Math.sin(a)*(.014+lift*.5)+lift*.5,Math.cos(a)*w])}return r;
+    });
+    mesh(glassGroup,loft('roof-integrated-lidar-fairing',brow),materials.dark);
+    // No 360-degree rotary puck: forward solid-state field is modeled separately.
+    const radar=part('radar');box(radar,[.085,.115,.30],[-2.355,.61,0],materials.dark,.018,'radar-module');
+    box(radar,[.008,.08,.245],[-2.402,.61,0],materials.optic,.006,'radar-radome');
+    const cam=part('camera');
+    const cameraDatum=[-.55,1.49,0];
+    box(cam,[.19,.085,.34],cameraDatum,materials.dark,.018,'interior-camera-cluster');
+    for(const z of [-.105,0,.105]){
+      const lens=cylinder(cam,.022,.022,.033,[-.658,1.50,z],materials.metal,24);lens.rotation.z=Math.PI/2;
+      const optic=cylinder(cam,.017,.017,.007,[-.679,1.50,z],materials.optic,24);optic.rotation.z=Math.PI/2;
+    }
+    // Black frit masks electronics around the lens aperture; kept below the glass surface.
+    mesh(glassGroup,panel('windscreen-frit-mask',(u,v)=>{const p=canopy(-.78+u*.30,-.20+v*.40);p[1]-=.015;return p},18,12,.006),materials.dark);
+    const compute=part('compute');
+    box(compute,[.65,.105,.46],[.18,.457,0],materials.dark,.027,'central-compute-enclosure');
+    for(let i=0;i<12;i++)box(compute,[.53,.025,.012],[.18,.523,-.18+i*.033],materials.metal,.003,'heatsink-fin');
+    for(const z of [-.12,0,.12])box(compute,[.038,.035,.055],[-.161,.469,z],materials.blue,.006,'sealed-connector');
+    const actuators=part('actuators');
+    box(actuators,[.28,.12,.38],[-1.5,.45,0],materials.blue,.026,'steering-controller');
+    cable(actuators,[[-1.5,.40,-.81],[-1.5,.44,0],[-1.5,.40,.81]],.022,materials.metal);
+    box(actuators,[.37,.18,.42],[1.5,.42,0],materials.dark,.036,'rear-drive-unit');
+    for(const side of [-1,1])for(const x of [-1.5,1.5])box(actuators,[.10,.08,.09],[x,.42,side*.755],materials.blue,.012,'brake-control-node');
+    const assemblyMeasurements={
+      tyreArchClearance:CONTRACT.archRadius-CONTRACT.wheelRadius,
+      seatMountGap:.5785-.575,
+      frontSeatHeadHeight:1.47,
+      rearSeatHeadHeight:1.41,
+      roofHeight:canopyHeight(0),
+      lidarRoofProjection:.047,
+      cameraInsideEnvelope:cameraDatum[1]<canopyHeight(cameraDatum[0]),
+      radarBehindFascia:-2.355>-2.46,
+      independentPartCount:parts.size,
+      glassPanelThickness:.012
+    };
+    if(assemblyMeasurements.tyreArchClearance<.04||!assemblyMeasurements.cameraInsideEnvelope||!assemblyMeasurements.radarBehindFascia)throw new Error('Vehicle assembly contract failed');
+    // Merge static geometry only within the same semantic part and material. Wheels remain independently movable.
+    function mergeStatic(group){const groups=new Map();group.updateMatrixWorld(true);const children=[...group.children];for(const child of children){if(!child.isMesh)continue;child.updateMatrix();let geo=child.geometry.clone().applyMatrix4(child.matrix);if(geo.index){const old=geo;geo=geo.toNonIndexed();old.dispose()}geo.deleteAttribute('uv');const list=groups.get(child.material)||[];list.push(geo);groups.set(child.material,list);group.remove(child);child.geometry.dispose()}for(const [mat,geos] of groups){const geo=mergeGeometries(geos);geos.forEach(g=>g.dispose());mesh(group,geo,mat,[0,0,0],`${group.name||'wheel'}-merged`)}}
+    for(const p of parts.values()){if(p.data.id==='wheels'){wheelGroups.forEach(mergeStatic)}else mergeStatic(p.group);p.group.traverse(o=>{if(o.isMesh){o.userData.partId=p.data.id;o.userData.original=o.material;o.material=o.material.clone();o.userData.baseColor=o.material.color.clone();o.userData.baseEmissive=o.material.emissive.clone();o.userData.baseIntensity=o.material.emissiveIntensity;o.userData.baseOpacity=o.material.opacity;o.userData.baseTransparent=o.material.transparent;o.userData.baseDepthWrite=o.material.depthWrite;p.meshes.push(o);pickables.push(o)}})}
+    const systemEdges=[];
+    for(const id of ['body','glass']){const p=parts.get(id);for(const o of p.meshes){const e=new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry,30),new THREE.LineBasicMaterial({color:0x7c8fc9,transparent:true,opacity:.42,depthWrite:false}));e.visible=false;e.renderOrder=2;p.group.add(e);systemEdges.push(e)}}
+    // Presentation geometry: subtle instrument pad, no post-processing dependency.
+    const platform=new THREE.Group();scene.add(platform);const pad=cylinder(platform,3.65,3.65,.065,[0,-.076,0],new THREE.MeshStandardMaterial({color:0x080b12,metalness:.08,roughness:.92}),100);pad.castShadow=false;
+    const floor=mesh(scene,new THREE.PlaneGeometry(200,200),new THREE.ShadowMaterial({opacity:.28}),[0,-.041,0]);floor.rotation.x=-Math.PI/2;floor.castShadow=false;
+    const grid=new THREE.GridHelper(7.1,22,0x6077ba,0x343f72);grid.position.y=-.037;grid.material.transparent=true;grid.material.opacity=.11;platform.add(grid);
+    function ring(radius){const pts=Array.from({length:129},(_,i)=>new THREE.Vector3(Math.cos(i/128*Math.PI*2)*radius,-.035,Math.sin(i/128*Math.PI*2)*radius));const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8496bb,transparent:true,opacity:.25}));platform.add(l)}ring(3.45);
+    const tickPos=[];for(let i=0;i<100;i++){const a=i*Math.PI*2/100,r=i%5===0?3.29:3.37;tickPos.push(Math.cos(a)*r,-.032,Math.sin(a)*r,Math.cos(a)*3.42,-.032,Math.sin(a)*3.42)}platform.add(new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(tickPos,3)),new THREE.LineBasicMaterial({color:0x8398d2,transparent:true,opacity:.28})));
+    // Sensor fields are scaled teaching overlays, not literal meter ranges or a driving simulation.
+    const systemRoot=new THREE.Group();systemRoot.name='logical-overlays';root.add(systemRoot);systemRoot.visible=false;
+    const perception=new THREE.Group(),planning=new THREE.Group(),controlGroup=new THREE.Group();systemRoot.add(perception,planning,controlGroup);
+    const fieldMaterial=(c,opacity)=>new THREE.MeshBasicMaterial({color:c,transparent:true,opacity,side:THREE.DoubleSide,depthWrite:false});
+    const lidarField=new THREE.Group();lidarField.position.set(-.55,1.66,0);perception.add(lidarField);
+    for(const r of [1.15,1.85,2.55,3.25]){const ringMesh=mesh(lidarField,new THREE.RingGeometry(r-.009,r+.009,72,1,Math.PI*2/3,Math.PI*2/3),fieldMaterial(color.perception,.34));ringMesh.rotation.x=-Math.PI/2;ringMesh.castShadow=false;ringMesh.receiveShadow=false;}
+    // Forward solid-state field is a 120-degree fan.
+    const radarWedge=mesh(perception,new THREE.CircleGeometry(3.8,64,-Math.PI*.27,Math.PI*.54),fieldMaterial(0x78a6ff,.13),[-2.39,.61,0]);radarWedge.rotation.x=-Math.PI/2;radarWedge.rotation.z=Math.PI;radarWedge.castShadow=false;
+    const frustumGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-.68,1.50,0),new THREE.Vector3(-4.7,.1,-1.6),new THREE.Vector3(-4.7,1.8,-1.6),new THREE.Vector3(-.68,1.50,0),new THREE.Vector3(-4.7,.1,1.6),new THREE.Vector3(-4.7,1.8,1.6),new THREE.Vector3(-.68,1.50,0),new THREE.Vector3(-4.7,1.8,1.6),new THREE.Vector3(-4.7,1.8,-1.6),new THREE.Vector3(-.68,1.50,0),new THREE.Vector3(-4.7,.1,1.6),new THREE.Vector3(-4.7,.1,-1.6)]);
+    frustumGeo.computeVertexNormals();mesh(perception,frustumGeo,fieldMaterial(0x9a8dff,.055));
+    // Seeded static returns; no per-frame geometry rebuilds.
+    let seed=42;const rng=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};const points=[];for(let i=0;i<450;i++){const a=rng()*Math.PI*2,r=2.25+rng()*1.3;points.push(Math.cos(a)*r,.08+rng()*1.45,Math.sin(a)*r)}const cloud=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(points,3)),new THREE.PointsMaterial({color:0x82b6ff,size:.018,transparent:true,opacity:.65,depthWrite:false}));perception.add(cloud);
+    const brain=mesh(planning,new THREE.BoxGeometry(.94,.27,.73),fieldMaterial(color.planning,.14),[.18,.51,0]);brain.castShadow=false;
+    const brainEdges=new THREE.LineSegments(new THREE.EdgesGeometry(brain.geometry),new THREE.LineBasicMaterial({color:color.planning,transparent:true,opacity:.8}));brainEdges.position.copy(brain.position);planning.add(brainEdges);
+    const pathCurve=new THREE.CatmullRomCurve3([new THREE.Vector3(-.2,.045,0),new THREE.Vector3(-2,.045,0),new THREE.Vector3(-3.1,.045,-.25),new THREE.Vector3(-4.9,.045,-.9)]);mesh(planning,new THREE.TubeGeometry(pathCurve,60,.018,6,false),fieldMaterial(color.planning,.85)).castShadow=false;
+    for(const p of [[-1.5,.5,-.65],[-1.5,.5,.65],[1.5,.5,-.65],[1.5,.5,.65]]){const h=mesh(controlGroup,new THREE.SphereGeometry(.23,16,12),fieldMaterial(color.control,.15),p);h.castShadow=false;halos.push(h)}
+    function flow(parent,pts,col){const c=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(...p)));const tube=mesh(parent,new THREE.TubeGeometry(c,40,.014,5,false),fieldMaterial(col,.5));tube.castShadow=false;for(let i=0;i<3;i++){const dot=mesh(parent,new THREE.SphereGeometry(.038,8,6),new THREE.MeshBasicMaterial({color:col}));dot.castShadow=false;flows.push({curve:c,dot,phase:i/3})}}
+    flow(perception,[[-.55,1.66,0],[-.5,1.25,0],[.18,.56,0]],color.perception);flow(perception,[[-2.39,.61,0],[-1.2,.62,0],[.18,.56,0]],color.perception);flow(planning,[[.18,.56,0],[-.2,.9,.35],[-1.5,.54,.5]],color.planning);flow(controlGroup,[[-1.5,.54,.5],[-1.5,.5,1.02]],color.control);flow(controlGroup,[[.18,.51,0],[1.5,.58,0],[1.5,.52,-1.02]],color.control);
+    // DOM anchors are a keyboard-accessible layer; Raycaster also selects the actual 3D meshes.
+    for(const [i,d] of DATA.entries()){const b=document.createElement('button');b.className='anchor';b.dataset.id=d.id;b.setAttribute('aria-label',`探索${d.name}`);b.setAttribute('aria-pressed',String(d.id===state.selected));b.innerHTML=`<span class="anchor-dot">${String(i+1).padStart(2,'0')}</span><span class="anchor-text">${d.name}</span>`;b.onclick=()=>selectPart(d.id);$('anchors').appendChild(b);anchorEntries.push({button:b,part:parts.get(d.id),object:d.id==='wheels'?wheelGroups[1]:parts.get(d.id).group,point:d.id==='wheels'?new THREE.Vector3(0,.12,.12):new THREE.Vector3(...d.anchor),projected:new THREE.Vector3()})}
+    let cameraTween=null,modeTween=null,focusId=null,lastFrame=0,elapsed=0,frames=0,fps=60,frameSum=0,disposed=false;const framePoint=new THREE.Vector3(),projected=new THREE.Vector3(),raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let pointerDown=null;
+    function stopCamera(){cameraTween?.kill();cameraTween=null;controls.enabled=true}
+    function moveCamera(position,target){stopCamera();controls.enabled=false;controls.autoRotate=false;$('rotate').setAttribute('aria-pressed','false');controls.enableDamping=false;controls.update();cameraTween=gsap.timeline({defaults:{duration:duration(),ease:'power3.inOut'},onComplete:()=>{controls.enabled=true;controls.enableDamping=true;cameraTween=null;controls.update()}}).to(camera.position,{x:position.x,y:position.y,z:position.z},0).to(controls.target,{x:target.x,y:target.y,z:target.z},0)}
+    function homeView(exploded=state.exploded){const aspect=host.clientWidth/Math.max(host.clientHeight,1),scale=Math.max(1,.99/aspect);const v=exploded?new THREE.Vector3(-7.5,4.5,8.3):new THREE.Vector3(-5.85,2.65,6.4);v.multiplyScalar(scale);moveCamera(v,new THREE.Vector3(0,exploded?1.6:.72,0));focusId=null}
+    function highlight(){for(const p of parts.values())for(const o of p.meshes){const logical=state.mode==='system',structure=p.data.system==='structure',chosen=p.data.id===state.selected,dim=logical&&state.system!=='all'&&p.data.system!==state.system;o.material.color.copy(o.userData.baseColor);o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=o.userData.baseIntensity;o.material.transparent=o.userData.baseTransparent;o.material.opacity=o.userData.baseOpacity;o.material.depthWrite=o.userData.baseDepthWrite;if(logical){if(structure){o.material.color.set(0x8ba1df);o.material.opacity=p.data.id==='body'?.13:p.data.id==='seats'?.18:.08;o.material.transparent=true;o.material.depthWrite=false}else{o.material.color.set(color[p.data.system]);o.material.emissive.set(color[p.data.system]);o.material.emissiveIntensity=dim?.025:.23;o.material.opacity=dim?.28:1;o.material.transparent=dim;o.material.depthWrite=!dim}}else if(chosen&&focusId){o.material.emissive.set(0x7a69cf);o.material.emissiveIntensity=.15}o.material.needsUpdate=true}perception.visible=state.system==='all'||state.system==='perception';planning.visible=state.system==='all'||state.system==='planning';controlGroup.visible=state.system==='all'||state.system==='control'}
+    function syncUI(){const sys=state.mode==='system';systemEdges.forEach(e=>e.visible=sys);$('mode-hardware').setAttribute('aria-pressed',String(!sys));$('mode-system').setAttribute('aria-pressed',String(sys));$('explode-button').setAttribute('aria-pressed',String(state.exploded));$('explode-button').querySelector('span').textContent=sys?'复原车体':state.exploded?'复原 / 组装':'拆解车体';$('scene-status').textContent=sys?'SYSTEM VIEW · 系统透视':state.exploded?'EXPLODED · 硬件拆解':'ASSEMBLED · 已组装';$('scene-caption').innerHTML=sys?'<b>感知 → 决策 → 执行</b> · 持续反馈闭环':'无标跨界车 <b>Y–STUDY</b>';$('scene-note').textContent=sys?'范围按场景缩比展示；光点表示数据传递，不代表真实时延。':state.exploded?'点击模型标记，深入了解每个部件。':'点击「拆解车体」，让每一层技术浮出水面。';$('legend').hidden=!sys;document.querySelectorAll('.pipeline-step').forEach(b=>b.setAttribute('aria-pressed',String(sys&&state.system===b.dataset.system)))}
+    function animateAssembly(explode){modeTween?.kill();state.exploded=explode;focusId=null;const tl=gsap.timeline({defaults:{duration:duration(),ease:'power3.inOut'},onComplete:()=>{modeTween=null;if(focusId)focusPart(focusId)}});for(const [id,p] of parts){const to=p.home.clone().addScaledVector(p.delta,explode?1:0);tl.to(p.group.position,{x:to.x,y:to.y,z:to.z},0)}for(const w of wheelGroups){const to=w.userData.home.clone().addScaledVector(w.userData.delta,explode?1:0);tl.to(w.position,{x:to.x,y:to.y,z:to.z},0)}modeTween=tl;syncUI();highlight()}
+    function setMode(mode,system='all'){if(mode===state.mode&&system===state.system)return;state.mode=mode;state.system=system;systemRoot.visible=mode==='system';animateAssembly(false);homeView(false);syncUI();highlight()}
+    function toggleExplode(){if(state.mode==='system'){setMode('hardware');return}animateAssembly(!state.exploded);homeView(state.exploded)}
+    function focusPart(id){focusId=id;const p=parts.get(id),box3=new THREE.Box3().setFromObject(id==='wheels'?wheelGroups[1]:p.group);const target=box3.getCenter(new THREE.Vector3()),size=box3.getSize(new THREE.Vector3());const aspect=host.clientWidth/Math.max(host.clientHeight,1);const distance=Math.max(2.5,Math.max(size.x,size.y,size.z)*1.55/Math.min(1,aspect));const direction=new THREE.Vector3(-1,.65,1.2).normalize();const pos=target.clone().addScaledVector(direction,distance);pos.y=Math.max(pos.y,1.15);moveCamera(pos,target);highlight()}
+    function selectPart(id){if(!catalog.has(id))return;updateCard(id,true);if(state.mode==='hardware'&&!state.exploded){animateAssembly(true);focusId=id;homeView(true);focusId=id}else{focusId=id;if(!modeTween)focusPart(id)}highlight()}
+    renderer.domElement.addEventListener('pointerdown',e=>{pointerDown={x:e.clientX,y:e.clientY,id:e.pointerId}});
+    renderer.domElement.addEventListener('pointerup',e=>{if(!pointerDown||pointerDown.id!==e.pointerId||Math.hypot(e.clientX-pointerDown.x,e.clientY-pointerDown.y)>6){pointerDown=null;return}pointerDown=null;if(e.button!==0)return;const r=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(pickables,false);const hit=hits.find(h=>!(state.mode==='system'&&catalog.get(h.object.userData.partId).system==='structure'));if(hit)selectPart(hit.object.userData.partId)});
+    renderer.domElement.addEventListener('pointercancel',()=>pointerDown=null);
+    renderer.domElement.addEventListener('pointermove',e=>{if(pointerDown)return;const r=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);renderer.domElement.style.cursor=raycaster.intersectObjects(pickables,false).length?'pointer':'grab'});
+    $('mode-hardware').onclick=()=>setMode('hardware');$('mode-system').onclick=()=>setMode('system');$('explode-button').onclick=toggleExplode;$('reset-view').onclick=()=>{homeView();highlight()};$('top-view').onclick=()=>{focusId=null;moveCamera(new THREE.Vector3(0,state.exploded?12:9.8,.08),new THREE.Vector3(0,state.exploded?1.3:.5,0));highlight()};$('rotate').onclick=()=>{stopCamera();controls.autoRotate=!controls.autoRotate;$('rotate').setAttribute('aria-pressed',String(controls.autoRotate))};$('focus-button').onclick=()=>selectPart(state.selected);
+    document.querySelectorAll('.pipeline-step').forEach(b=>b.onclick=()=>{const s=b.dataset.system;if(state.mode==='system'&&state.system===s){state.system='all';syncUI();highlight();return}setMode('system',s);updateCard(s==='perception'?'lidar':s==='planning'?'compute':'actuators',true);toast(s==='perception'?'感知：用传感器建立对环境的理解':s==='planning'?'决策：融合信息，预测目标并规划路径':'执行：把路径转化为转向、制动和驱动')});
+    window.addEventListener('keydown',e=>{if($('guide').open||e.repeat||e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName))return;const key=e.key.toLowerCase();if(key==='a')setMode('hardware');else if(key==='b')setMode('system');else if(key==='r'){homeView();highlight()}else if(key==='t')$('top-view').click();else if(e.code==='Space'&&document.activeElement?.tagName!=='BUTTON'){e.preventDefault();toggleExplode()}else if(e.key==='Escape'){homeView();highlight()}});
+    function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)}const observer=new ResizeObserver(resize);observer.observe(host);resize();camera.position.set(-5.85,2.65,6.4);if(camera.aspect<1)camera.position.multiplyScalar(1/camera.aspect);controls.update();
+    const debugMode=new URLSearchParams(location.search).has('debug');let debugPanel,debugOutput;if(debugMode){debugPanel=document.createElement('div');debugPanel.className='debug';debugPanel.innerHTML='<select aria-label="诊断视图"><option value="final">最终画面 / 无后期</option><option value="wireframe">线框</option><option value="normals">法线</option></select><select aria-label="渲染质量"><option value="standard">标准</option><option value="low">节能</option></select><button>暂停</button><output></output>';document.body.appendChild(debugPanel);debugOutput=debugPanel.querySelector('output');const normal=new THREE.MeshNormalMaterial();debugPanel.querySelector('select').onchange=e=>{scene.overrideMaterial=e.target.value==='normals'?normal:null;for(const p of parts.values())for(const m of p.meshes)m.material.wireframe=e.target.value==='wireframe'};debugPanel.querySelectorAll('select')[1].onchange=e=>{const low=e.target.value==='low';renderer.setPixelRatio(low?1:Math.min(devicePixelRatio,1.75));key.shadow.mapSize.set(low?512:2048,low?512:2048);key.shadow.map?.dispose();key.shadow.map=null;resize()};debugPanel.querySelector('button').onclick=e=>{state.paused=!state.paused;e.target.textContent=state.paused?'继续':'暂停'}}
+    if(debugMode){const view=document.createElement('select');view.setAttribute('aria-label','诊断相机');view.innerHTML='<option value="design">主视角</option><option value="side">侧面轮廓</option><option value="rear">后部轮廓</option><option value="near">近景</option><option value="far">远景</option>';debugPanel.appendChild(view);view.onchange=()=>{const k=view.value,v={side:[0,1.65,8.7],rear:[6,2.8,5.8],near:[-4.1,2.35,4.4],far:[-9,5.1,9.5]}[k];if(v)moveCamera(new THREE.Vector3(...v),new THREE.Vector3(0,.85,0));else homeView()}}
+    const diagnostics=document.createElement('output');diagnostics.id='runtime-snapshot';diagnostics.hidden=true;document.body.appendChild(diagnostics);
+    function render(ms){if(disposed)return;const realDt=lastFrame?(ms-lastFrame)/1000:0,dt=Math.min(realDt,.05);lastFrame=ms;if(!state.paused&&!motionQuery.matches)elapsed+=dt;if(!cameraTween){if(state.paused)controls.autoRotate=false;controls.update(dt)}else camera.lookAt(controls.target);root.updateMatrixWorld(true);if(systemRoot.visible){flows.forEach(f=>{f.curve.getPoint((elapsed*.23+f.phase)%1,f.dot.position)});halos.forEach((h,i)=>h.scale.setScalar(1+Math.sin(elapsed*2+i)*.1))}camera.updateMatrixWorld();const showAnchors=state.exploded||state.mode==='system';for(const a of anchorEntries){a.button.hidden=!showAnchors;if(!showAnchors)continue;const p=a.projected.copy(a.point);a.object.localToWorld(p);p.project(camera);const visible=p.z>-1&&p.z<1&&Math.abs(p.x)<.95&&p.y<.89&&p.y>-.65;a.button.hidden=!visible;if(visible){a.button.style.left=`${(p.x*.5+.5)*host.clientWidth}px`;a.button.style.top=`${(-p.y*.5+.5)*host.clientHeight}px`;a.button.classList.toggle('selected',a.part.data.id===state.selected)}}renderer.render(scene,camera);frameSum+=realDt;frames++;if(frameSum>=.5){fps=frames/frameSum;frames=0;frameSum=0;if(debugOutput)debugOutput.textContent=`${fps.toFixed(0)} fps · ${renderer.info.render.calls} draws · ${renderer.info.render.triangles.toLocaleString()} tris · GPU time unavailable`;if(window.autolab)diagnostics.textContent=JSON.stringify(window.autolab.snapshot())}}
+    renderer.setAnimationLoop(render);renderer.compile(scene,camera);$('loading').hidden=true;$('explode-button').disabled=false;sceneApi={select:selectPart,highlight};syncUI();
+    renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();renderer.setAnimationLoop(null);showFailure(new Error('WebGL 上下文丢失，请重新加载以恢复场景。'))});
+    // Read-only diagnostic snapshot. UI tests exercise real buttons rather than mutating internal state.
+    window.autolab={snapshot:()=>({version:'4.0.0',seed:42,contract:CONTRACT,state:{mode:state.mode,exploded:state.exploded,selected:state.selected,system:state.system,visited:[...state.visited]},camera:{position:camera.position.toArray(),target:controls.target.toArray(),aspect:camera.aspect},parts:[...parts].map(([id,p])=>({id,position:p.group.position.toArray()})),wheels:wheelGroups.map(w=>({position:w.position.toArray(),home:w.userData.home.toArray()})),geometry:loftReports,assembly:assemblyMeasurements,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio(),fps,gpuTime:null},animation:{camera:!!cameraTween,assembly:!!modeTween}})};
+    window.addEventListener('pagehide',()=>{disposed=true;renderer.setAnimationLoop(null);observer.disconnect();stopCamera();modeTween?.kill();controls.dispose();const geos=new Set(),mats=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>mats.add(m))});geos.forEach(g=>g.dispose());mats.forEach(m=>m.dispose());Object.values(materials).forEach(m=>m.dispose());env.dispose();renderer.dispose()},{once:true});
+  } catch(error){showFailure(error)}
+  </script>
+</body>
+</html>
